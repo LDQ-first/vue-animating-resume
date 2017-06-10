@@ -1,9 +1,7 @@
 <template>
   <div>
-    <div id="app">
-      <pre>
-        {{code}}
-      </pre>
+    <div id="app" class="styleEditor">
+      <pre>{{code}}</pre>
     </div>
     <div v-html="styleCode"></div>
   </div>
@@ -15,8 +13,7 @@ export default {
   data() {
     return {
       code: ``,
-      finalCode: `
-/*
+      finalCode: `/*
 * Inspired by http://strml.net/
 * 大家好，我是刘德铨 
 * 这是我的一份动态简历！
@@ -33,7 +30,32 @@ html {
   color: rgb(222,222,222);
   font-size: 16px;
 }
-      `,
+/* 文字离边框太近了,我们来挪一下它 */
+.styleEditor {
+  padding: .5em;
+  border: 1px solid;
+  margin: .5em;
+  overflow: auto;
+  width: 45vw;
+  height: 90vh;
+}
+/* 代码高亮
+  作为程序员，怎么能忍受代码都是一种颜色呢
+*/
+.token.selector{ color: rgb(133,153,0); }
+.token.property{ color: rgb(187,137,0); }
+.token.punctuation{ color: yellow; }
+.token.function{ color: rgb(42,161,152); }
+
+.comment       { color: #857F6B; font-style: italic; }
+.selector      { color: #E69F0F; }
+.selector .key { color: #64D5EA; }
+.key           { color: #64D5EA; }
+.value         { color: #BE84F2; }
+.value.px      { color: #F92772; }
+
+        `,
+
     }
   },
   created() {
@@ -41,7 +63,7 @@ html {
     setInterval(()=> {
       this.code = this.finalCode.substring(0, n);
       n += 1;
-    }, 100) 
+    }, 50) 
   },
   computed: {
     styleCode() {
