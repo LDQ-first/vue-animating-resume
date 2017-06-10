@@ -1,17 +1,45 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <hello></hello>
+  <div>
+    <div id="app">
+      {{code}}
+    </div>
+    <div v-html="styleCode">
+
+    </div>
   </div>
+  
+  
 </template>
 
 <script>
-import Hello from './components/Hello'
+
 
 export default {
   name: 'app',
+  data() {
+    return {
+      code: ``,
+      finalCode: `
+body {
+  background: red;
+}
+`
+    }
+  },
+  created() {
+    let n = 0;
+    setInterval(()=> {
+      this.code = this.finalCode.substring(0, n);
+      n += 1;
+    }, 10000) 
+  },
+  computed: {
+    styleCode() {
+      return `<style>${this.code}</style>`
+    }
+  },
   components: {
-    Hello
+    
   }
 }
 </script>
@@ -21,8 +49,6 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+ 
 }
 </style>
