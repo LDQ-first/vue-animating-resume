@@ -1,19 +1,23 @@
 <template>
   <div>
-    <div id="app" class="styleEditor">
-      <pre>{{code}}</pre>
+    <div id="app">
+      <StyleEditor ref="styleEditor" :code="currentStyle"></StyleEditor>
+      <ResumeEditor></ResumeEditor>
     </div>
-    <div v-html="styleCode"></div>
   </div>
 </template>
 
 <script>
+ import StyleEditor from './components/StyleEditor'
+ import ResumeEditor from './components/ResumeEditor'
+
 export default {
   name: 'app',
   data() {
     return {
-      code: ``,
-      finalCode: `/*
+      interval: 50,
+      currentStyle: ``,
+      fullStyle: [ `/*
 * Inspired by http://strml.net/
 * 大家好，我是刘德铨 
 * 这是我的一份动态简历！
@@ -38,52 +42,74 @@ html {
   overflow: auto;
   width: 45vw;
   height: 90vh;
+  background: #303030;
 }
 /* 代码高亮
   作为程序员，怎么能忍受代码都是一种颜色呢
 */
-.token.selector{ color: rgb(133,153,0); }
-.token.property{ color: rgb(187,137,0); }
-.token.punctuation{ color: yellow; }
-.token.function{ color: rgb(42,161,152); }
+.token.comment { color: rgb(222,222,222); }
+.token.selector { color: #a6e22e; }
+.token.punctuation { color: yellow; }
+.token.property { color: #66d9ef; }
+pre { color: #999cfe};
+.token.function { color: #2f9c0a; }
 
-.comment       { color: #857F6B; font-style: italic; }
-.selector      { color: #E69F0F; }
-.selector .key { color: #64D5EA; }
-.key           { color: #64D5EA; }
-.value         { color: #BE84F2; }
-.value.px      { color: #F92772; }
+
 
         `,
+
+]
 
     }
   },
   created() {
-    let n = 0;
-    setInterval(()=> {
-      this.code = this.finalCode.substring(0, n);
-      n += 1;
-    }, 50) 
-  },
-  computed: {
-    styleCode() {
-      return `<style>${this.code}</style>`
-    }
-  },
-  methods: {
+    this.makeResume();
 
   },
+  methods: {
+    makeResume: async function () {
+      await this.graduallyShowStyle(0)
+
+    },
+    graduallyShowStyle(n) {
+      return new Promise((resolve, reject) => {
+          const showStyle = (()=> {
+          const style = this.fullStyle[n];
+          if(!style) {
+            return;
+          }
+          const length = this.fullStyle.filter((ele, index) => index <= n).map( item => item.length ).reduce((acc, cur) => acc + cur, 0);
+          const prefixLength = length - style.length;
+          if(this.currentStyle.length < length) {
+            let len = this.currentStyle.length - prefixLength;
+            if(style.substring(len, len + 1) === '\n' && this.$refs.styleEditor) {
+              this.$nextTick(()=> {
+                this.$refs.styleEditor.dragScrollBar();
+              })
+            }
+            this.currentStyle += style.substring(len, len + 1) || ' ';
+           /* console.log(showStyle);*/
+            setTimeout(showStyle, this.interval);
+          } else {
+            resolve();
+          }
+        }).bind(this);
+         showStyle();
+      })
+    }
+  },
   components: {
-    
+    StyleEditor,
+    ResumeEditor
   }
 }
 </script>
 
-<style>
+<style scoped>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
- 
+  
 }
 </style>
