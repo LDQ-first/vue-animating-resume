@@ -22,6 +22,9 @@
         methods: {
             dragScrollBar() {
                 this.$refs.container.scrollTop = 100000;
+            },
+            immediatelyShowCode() {
+                this.$refs.container.classList.add('showCode');
             }
         }
     }

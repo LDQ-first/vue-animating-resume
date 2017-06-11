@@ -10,13 +10,13 @@
       </svg>
       加速
     </button>
-    <button @click="stop" class="stop btns" id="stop" v-if="state != 'stop'">
+    <button @click="stop" class="stop btns" id="stop" v-show="state != 'stop'">
       <svg class="icon" id="icon"  aria-hidden="true">
         <use xlink:href="#icon-tag35"></use>
       </svg>
       停止
     </button>
-    <button @click="keepOn" class="keepOn btns" id="keepOn" v-else>
+    <button @click="keepOn" class="keepOn btns" id="keepOn" v-show="state != 'keepOn'">
       <svg class="icon" id="icon" aria-hidden="true">
         <use xlink:href="#icon-rightsanjiao-copy"></use>
       </svg>
@@ -27,6 +27,12 @@
         <use xlink:href="#icon-tiaoguo"></use>
       </svg>
       跳过
+    </button>
+    <button @click="again" class="again btns" id="again">
+      <svg class="icon" id="icon" aria-hidden="true">
+        <use xlink:href="#icon-tiaoguo"></use>
+      </svg>
+      重来
     </button>
   </div>
 </template>
@@ -102,7 +108,7 @@ pre { color: #999cfe};
   bottom: 2em;  left: 1em;
   background: #03A9F4;
   font-size: .25rem;  color: #EEE;
-  width: 10em;  height: 3em;
+  width: 6em;  height: 3em;
   text-align: center;
   cursor: pointer;
   margin: 10px 0;
@@ -114,7 +120,7 @@ pre { color: #999cfe};
 .btns::before, .btns::after  {
     content: "";
     position: absolute;
-    top: 4px;  bottom: 4px;  left: 12px;  right: 12px;
+    top: 4px;  bottom: 4px;  left: 32px;  right: 4px;
     border: 2px solid #eee; border-top: 0;  border-bottom: 0;
     transition: all .4s ease-in-out
 } 
@@ -143,8 +149,8 @@ pre { color: #999cfe};
 
 #icon {
    color: #FFF;
-   font-size: 1.2em;
-   margin-right: 0.5em;
+   font-size: 20px;
+   margin-right: 0.2em;
 }
 
 
@@ -244,7 +250,28 @@ pre { color: #999cfe};
     },
     skip() {
       this.stop();
-      this.$refs.resumeEditor.immediatelyShowResume();
+      this.state = 'skip';
+      this.immediatelyFillCode();
+      this.enableHtml = true;
+      this.immediatelyFillMarkdown();
+      
+      /*this.$refs.styleEditor.immediatelyShowCode();
+      this.$refs.resumeEditor.immediatelyShowResume();*/
+    },
+    immediatelyFillCode() {
+      this.currentStyle = '';
+      for(let style of this.fullStyle) {
+        console.log(style);
+        this.currentStyle += style;
+      } 
+    },
+    immediatelyFillMarkdown() {
+      this.currentMarkdown = this.fullMarkdown;
+    },
+    again() {
+      this.currentStyle = '';
+      this.currentMarkdown = '';
+      this.makeResume();
     },
     makeResume: async function () {
       await this.graduallyShowStyle(0)
@@ -306,7 +333,8 @@ pre { color: #999cfe};
           resolve();
         }
       })
-    }
+    },
+    
   },
   components: {
     StyleEditor,
@@ -337,25 +365,32 @@ pre { color: #999cfe};
 .stop {
   border: none;  outline: none;
   position: fixed;
-  bottom: 2em;  left: 14em;
-  width: 10em;  height: 3em;
+  bottom: 2em;  left: 8em;
+  width: 6em;  height: 3em;
   cursor: pointer;
 }
 
 .keepOn {
   border: none;  outline: none;
   position: fixed;
-  bottom: 2em;  left: 26em;
-  width: 10em;  height: 3em;
+  bottom: 2em;  left: 15em;
+  width: 6em;  height: 3em;
   cursor: pointer;
 }
 
 .skip {
   border: none;  outline: none;
   position: fixed;
-  bottom: 2em;  left: 38em;
-  width: 10em;  height: 3em;
+  bottom: 2em;  left: 22em;
+  width: 6em;  height: 3em;
   cursor: pointer;
 } 
 
+.again {
+  border: none;  outline: none;
+  position: fixed;
+  bottom: 2em;  left: 29em;
+  width: 6em;  height: 3em;
+  cursor: pointer;
+}
 </style>
