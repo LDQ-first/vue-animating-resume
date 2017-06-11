@@ -1,8 +1,8 @@
 <template>
   <div>
     <div id="app">
+      <p  v-show="optimizeResume" class="optimizeResume">简历快速优化中……</p>
       <button @click="controlCodeEve" v-show="controlCode" class="controlCode btns">{{controlCodeText}}</button>
-      <!--<button @click="hiddenCode" v-show="!showCode">隐藏代码</button>-->
       <StyleEditor ref="styleEditor" :code="currentStyle"></StyleEditor>
       <ResumeEditor ref="resumeEditor" :markdown="currentMarkdown" :enableHtml="enableHtml"></ResumeEditor>
     </div>
@@ -57,6 +57,7 @@ export default {
       state: 'keepOn',
       controlCode: false,
       controlCodeText: '显示代码',
+      optimizeResume: false,
       currentStyle: ``,
       fullStyle: [ `/*
 * Inspired by http://strml.net/
@@ -180,13 +181,31 @@ pre { color: #999cfe};
   padding: 0.1em 0.5em;
   border-left: 4px solid #FF7203;
   background: #B79DFE;
+  color: #222;
+  font-size: 20px;
 }
+
+.resumeEditor h3{
+  margin: 1em 0 .5em;
+  padding: 0.1em 0.5em;
+  border-left: 4px solid #FF7203;
+  background: #B79DFE;
+}
+
+.resumeEditor pre {
+  color: #222;
+  line-height: 1.4em;
+  padding: 0.2em 1em;
+}
+
 .resumeEditor  p {
   font-size: 18px;
   line-height: 1.7em;
+  padding: 0.2em 1em;
 }
+
 .resumeEditor img {
-   width: 50%;
+   width: 180px;
 }
 .resumeEditor .icon {
    width: 1em; height: 1em;
@@ -206,15 +225,16 @@ pre { color: #999cfe};
 }
 .resumeEditor ul,.resumeEditor ol{
   list-style: none;
+  padding: 0.2em 1em;
 }
-.resumeEditor ul> li::before{
+/*.resumeEditor ul> li::before{
   content: '•';
   margin-right: .5em;
-}
+}*/
 .resumeEditor ol {
   counter-reset: section;
 }
-.resumeEditor ol li::before {
+.resumeEditor ol li::before{
   counter-increment: section;            
   content: counters(section, ".") " ";  
   margin-right: .5em;
@@ -230,17 +250,30 @@ pre { color: #999cfe};
 */
 /*隐藏代码*/
 .styleEditor { transform: translate(-50%, -200%); }
-.resumeEditor { position: absolute; left: 50%; transform: translateX(-50%); }
+.resumeEditor { position: absolute; left: 50%; top: 3.5em; transform: translateX(-50%); }
 .styleEditor { 
    position: fixed; z-index: 100;
    top: 4em; left: 50%;
-   width: 80vw; height: 80vh;
+   width: 80vw; height: 80vh; margin: 0;
 }
         `,
         `
 /*优化简历*/
-.resumeEditor
+.resumeEditor {
+  width: 90vw; height: 80vh;
+  margin: 0; padding: 0;
+}
 
+progress {
+    width: 160px; height: 20px;
+    border: 1px solid #0064B4;  
+    background: #e6e6e6;
+    color: #0064B4; 
+}
+
+progress::-moz-progress-bar { background: #0064B4; }
+progress::-webkit-progress-bar { background: #e6e6e6; }
+progress::-webkit-progress-value  { background: #0064B4; }
 
         `
 
@@ -249,12 +282,19 @@ pre { color: #999cfe};
       enableHtml: false,
       fullMarkdown: `刘德铨
 ---
-在校大三学生，正在学习前端
+在校大三学生，正在学习前端, 对前端有强烈的兴趣
 
 技能
 ---
-* JavaScript
-* Vue
+<pre> 
+ HTML5       熟悉 <progress value="60" max="100"></progress>
+ CSS3        熟悉 <progress value="60" max="100"></progress>
+ SCSS        熟悉 <progress value="60" max="100"></progress>
+ JavaScript  熟悉 <progress value="50" max="100"></progress>
+ jQuery      熟悉 <progress value="70" max="100"></progress>
+ Vue         熟悉 <progress value="40" max="100"></progress>
+ Webpack     了解 <progress value="35" max="100"></progress>  
+</pre>
 
 求职意向
 ---
@@ -266,11 +306,11 @@ pre { color: #999cfe};
 * 邮箱：2320975287@qq.com
 * 微信：18826136763
 
-![weChat](./static/img/weChat.png)
+<span class="contact">![weChat](./static/img/weChat.png)</span>
 
 * qq: 2320975287
 
-![QQ](./static/img/qq.jpg)
+<span class="contact">![QQ](./static/img/qq.jpg)</span>
 
 项目
 ---
@@ -290,6 +330,17 @@ pre { color: #999cfe};
   </svg>
 </a>
 
+教育背景
+---
+- 就读于广东工业大学 本科
+
+自我评价和期望
+---
+热衷于学习新技术，做事认真，对前端有浓厚的兴趣。
+
+我希望能够加入一个以技术驱动为导向，技术氛围浓厚，有发展空间的互联网公司 :)
+
+希望借此机会为贵司贡献自身所长
 
 链接
 ----
@@ -329,6 +380,7 @@ pre { color: #999cfe};
       this.immediatelyFillCode();
       this.enableHtml = true;
       this.controlCode = true;
+      this.optimizeResume = false;
       this.immediatelyFillMarkdown();
       this.controlCodeText = '显示代码';
     },
@@ -347,6 +399,7 @@ pre { color: #999cfe};
       this.interval = 10;
       this.enableHtml = false;
       this.controlCode = false;
+      this.optimizeResume = false;
       this.state = 'keepOn';
       this.currentStyle = '';
       this.currentMarkdown = '';
@@ -362,6 +415,7 @@ pre { color: #999cfe};
       await this.showControlCode()
       await this.immediatelyCode()
       await this.graduallyShowStyle(3)
+      this.optimizeResume = false;
       this.state = 'over';
     },
     graduallyShowStyle(n) {
@@ -430,6 +484,7 @@ pre { color: #999cfe};
       return Promise.resolve({
         then: (resolve, reject) => {
           this.speedUp();
+          this.optimizeResume = true;
           resolve();
         }
       })
@@ -452,6 +507,13 @@ pre { color: #999cfe};
 
 .styleEditor.showCode {
   transform: translate(-50%, 0);
+}
+
+.optimizeResume {
+  width: 100vw;
+  margin: 10px 0;
+  text-align: center;
+  color: #FFF;
 }
 
 .control {
@@ -482,5 +544,8 @@ pre { color: #999cfe};
 
 .controlCode {
   margin: 10px;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 </style>
