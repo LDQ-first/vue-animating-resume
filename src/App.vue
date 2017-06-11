@@ -265,8 +265,6 @@ pre { color: #999cfe};
 > 如果你喜欢这个效果，Fork [我的项目](https://github.com/LDQ-first/vue-animating-resume-1)
 
 
-![图片](./static/img/logo.png)
-
 `
 
     }
