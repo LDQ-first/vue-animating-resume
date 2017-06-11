@@ -6,6 +6,7 @@
     </div>
     <button @click="speedUp" class="speedUp btns" id="speedUp">加速</button>
     <button @click="stop" class="stop btns" id="stop">停止</button>
+    <button @click="keepOn" class="keepOn btns" id="keepOn">继续</button>
   </div>
 </template>
 
@@ -19,6 +20,7 @@ export default {
   data() {
     return {
       interval: 50,
+      timer: '',
       currentStyle: ``,
       fullStyle: [ `/*
 * Inspired by http://strml.net/
@@ -122,9 +124,6 @@ pre { color: #999cfe};
 }*/
 
 
-
-
-
 /* 好了，我开始写简历了 */
 
         `,
@@ -204,7 +203,12 @@ pre { color: #999cfe};
   },
   methods: {
     stop() {
-
+      console.log(this.timer);
+      clearTimeout(this.timer);
+      
+    },
+    keepOn() {
+       this.makeResume();
     },
     speedUp() {
       this.interval = 0;
@@ -233,7 +237,7 @@ pre { color: #999cfe};
               })
             }
             this.currentStyle += style.substring(len, len + 1) || ' ';
-            setTimeout(showStyle, this.interval);
+            this.timer = setTimeout(showStyle, this.interval);
           } else {
             resolve();
           }
@@ -253,9 +257,9 @@ pre { color: #999cfe};
               if(prevLetter === '\n' && this.$refs.resumeEditor) {
                 this.$nextTick( () => this.$refs.resumeEditor.dragScrollBar() )
               }
-              setTimeout(showResume, this.interval)
+              this.timer = setTimeout(showResume, this.interval)
             } else {
-              resolve()
+              resolve();
             }
           }
           showResume()
@@ -283,7 +287,6 @@ pre { color: #999cfe};
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  
 }
 
 .speedUp {
@@ -298,8 +301,12 @@ pre { color: #999cfe};
   cursor: pointer;
 }
 
-
-
-
+.keepOn {
+  border: none;  outline: none;
+  position: fixed;
+  bottom: 2em;  left: 26em;
+  width: 10em;  height: 3em;
+  cursor: pointer;
+}
 
 </style>
