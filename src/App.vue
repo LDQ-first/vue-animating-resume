@@ -4,14 +4,30 @@
       <StyleEditor ref="styleEditor" :code="currentStyle"></StyleEditor>
       <ResumeEditor ref="resumeEditor" :markdown="currentMarkdown" :enableHtml="enableHtml"></ResumeEditor>
     </div>
-    <button @click="speedUp" class="speedUp btns" id="speedUp">加速</button>
-    <button @click="stop" class="stop btns" id="stop">停止</button>
-    <button @click="keepOn" class="keepOn btns" id="keepOn">继续</button>
+    <button @click="speedUp" class="speedUp btns" id="speedUp">
+      <svg class="icon" aria-hidden="true">
+        <use xlink:href="#icon-yingyongjiasuqi"></use>
+      </svg>
+      加速
+    </button>
+    <button @click="stop" class="stop btns" id="stop" v-if="state != 'stop'">
+      <svg class="icon" aria-hidden="true">
+        <use xlink:href="#icon-tag35"></use>
+      </svg>
+      停止
+    </button>
+    <button @click="keepOn" class="keepOn btns" id="keepOn" v-else>
+      <svg class="icon" aria-hidden="true">
+        <use xlink:href="#icon-rightsanjiao-copy"></use>
+      </svg>
+      继续
+    </button>
   </div>
 </template>
 
 <script>
  import './assets/reset.css'
+ import './assets/js/iconfont.js'
  import StyleEditor from './components/StyleEditor'
  import ResumeEditor from './components/ResumeEditor'
 
@@ -21,6 +37,7 @@ export default {
     return {
       interval: 50,
       timer: '',
+      state: 'keepOn',
       currentStyle: ``,
       fullStyle: [ `/*
 * Inspired by http://strml.net/
@@ -203,11 +220,11 @@ pre { color: #999cfe};
   },
   methods: {
     stop() {
-      console.log(this.timer);
+      this.state = 'stop';
       clearTimeout(this.timer);
-      
     },
     keepOn() {
+      this.state = 'keepOn';
        this.makeResume();
     },
     speedUp() {
@@ -291,6 +308,13 @@ pre { color: #999cfe};
 
 .speedUp {
   display: none;
+}
+
+.icon {
+   width: 1em; height: 1em;
+   vertical-align: -0.15em;
+   fill: currentColor;
+   overflow: hidden;
 }
 
 .stop {
