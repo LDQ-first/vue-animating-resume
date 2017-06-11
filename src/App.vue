@@ -4,36 +4,38 @@
       <StyleEditor ref="styleEditor" :code="currentStyle"></StyleEditor>
       <ResumeEditor ref="resumeEditor" :markdown="currentMarkdown" :enableHtml="enableHtml"></ResumeEditor>
     </div>
-    <button @click="speedUp" class="speedUp btns" id="speedUp">
-      <svg class="icon" id="icon" aria-hidden="true">
-        <use xlink:href="#icon-yingyongjiasuqi"></use>
-      </svg>
-      加速
-    </button>
-    <button @click="stop" class="stop btns" id="stop" v-show="state != 'stop'">
-      <svg class="icon" id="icon"  aria-hidden="true">
-        <use xlink:href="#icon-tag35"></use>
-      </svg>
-      停止
-    </button>
-    <button @click="keepOn" class="keepOn btns" id="keepOn" v-show="state != 'keepOn'">
-      <svg class="icon" id="icon" aria-hidden="true">
-        <use xlink:href="#icon-rightsanjiao-copy"></use>
-      </svg>
-      继续
-    </button>
-    <button @click="skip" class="skip btns" id="skip">
-      <svg class="icon" id="icon" aria-hidden="true">
-        <use xlink:href="#icon-tiaoguo"></use>
-      </svg>
-      跳过
-    </button>
-    <button @click="again" class="again btns" id="again">
-      <svg class="icon" id="icon" aria-hidden="true">
-        <use xlink:href="#icon-tiaoguo"></use>
-      </svg>
-      重来
-    </button>
+    <div class="control clearfix">
+        <button @click="speedUp" class="speedUp btns" id="speedUp" v-show="state != 'stop' && state != 'skip'">
+          <svg class="icon" id="icon" aria-hidden="true">
+            <use xlink:href="#icon-yingyongjiasuqi"></use>
+          </svg>
+          加速
+        </button>
+        <button @click="stop" class="stop btns" id="stop" v-show="state != 'stop' && state != 'skip'">
+          <svg class="icon" id="icon"  aria-hidden="true">
+            <use xlink:href="#icon-tag35"></use>
+          </svg>
+          停止
+        </button>
+        <button @click="keepOn" class="keepOn btns" id="keepOn" v-show="state === 'stop'">
+          <svg class="icon" id="icon" aria-hidden="true">
+            <use xlink:href="#icon-rightsanjiao-copy"></use>
+          </svg>
+          继续
+        </button>
+        <button @click="skip" class="skip btns" id="skip" v-show="state != 'skip'">
+          <svg class="icon" id="icon" aria-hidden="true">
+            <use xlink:href="#icon-tiaoguo"></use>
+          </svg>
+          跳过
+        </button>
+        <button @click="again" class="again btns" id="again">
+          <svg class="icon" id="icon" aria-hidden="true">
+            <use xlink:href="#icon-tiaoguo"></use>
+          </svg>
+          重来
+        </button>
+     </div>
   </div>
 </template>
 
@@ -104,23 +106,23 @@ pre { color: #999cfe};
 
 .btns {
   border: none;  outline: none;
-  position: fixed;
-  bottom: 2em;  left: 1em;
+  margin-right: 0.5em;
+  float: left;
   background: #03A9F4;
   font-size: .25rem;  color: #EEE;
-  width: 6em;  height: 3em;
+  width: 5em;  height: 3em;
   text-align: center;
   cursor: pointer;
-  margin: 10px 0;
   border-radius: .3rem;
   transition: all .3s ease-in-out;
   box-shadow: 0 2px 10px rgba(0,0,0,.5);
+  position: relative;
 }
 
 .btns::before, .btns::after  {
     content: "";
     position: absolute;
-    top: 4px;  bottom: 4px;  left: 32px;  right: 4px;
+    top: 4px;  bottom: 4px;  left: 4px;  right: 4px;
     border: 2px solid #eee; border-top: 0;  border-bottom: 0;
     transition: all .4s ease-in-out
 } 
@@ -150,7 +152,6 @@ pre { color: #999cfe};
 #icon {
    color: #FFF;
    font-size: 20px;
-   margin-right: 0.2em;
 }
 
 
@@ -269,6 +270,7 @@ pre { color: #999cfe};
       this.currentMarkdown = this.fullMarkdown;
     },
     again() {
+      this.state = 'again';
       this.currentStyle = '';
       this.currentMarkdown = '';
       this.makeResume();
@@ -350,6 +352,14 @@ pre { color: #999cfe};
   -moz-osx-font-smoothing: grayscale;
 }
 
+.control {
+  position: fixed;
+  bottom: 0.5em;  left: 0.5em;
+  /*height: 3em;*/
+  width: 100%;
+  overflow-x: auto; 
+}
+
 .speedUp {
   display: none;
 }
@@ -364,33 +374,33 @@ pre { color: #999cfe};
 
 .stop {
   border: none;  outline: none;
-  position: fixed;
-  bottom: 2em;  left: 8em;
-  width: 6em;  height: 3em;
+  /*position: absolute;
+  bottom: 0;  left: 7em;*/
+  width: 5em;  height: 3em;
   cursor: pointer;
 }
 
 .keepOn {
   border: none;  outline: none;
-  position: fixed;
-  bottom: 2em;  left: 15em;
-  width: 6em;  height: 3em;
+  /*position: absolute;
+  bottom: 0;  left: 7em;*/
+  width: 5em;  height: 3em;
   cursor: pointer;
 }
 
 .skip {
   border: none;  outline: none;
-  position: fixed;
-  bottom: 2em;  left: 22em;
-  width: 6em;  height: 3em;
+ /* position: absolute;
+  bottom: 0;  left: 14em;*/
+  width: 5em;  height: 3em;
   cursor: pointer;
 } 
 
 .again {
   border: none;  outline: none;
-  position: fixed;
-  bottom: 2em;  left: 29em;
-  width: 6em;  height: 3em;
+  /*position: absolute;
+  bottom: 0;  left: 21em;*/
+  width: 5em;  height: 3em;
   cursor: pointer;
 }
 </style>
