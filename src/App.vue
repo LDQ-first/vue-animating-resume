@@ -1,6 +1,8 @@
 <template>
   <div>
     <div id="app">
+      <button @click="controlCodeEve" v-show="controlCode" class="controlCode">{{controlCodeText}}</button>
+      <!--<button @click="hiddenCode" v-show="!showCode">隐藏代码</button>-->
       <StyleEditor ref="styleEditor" :code="currentStyle"></StyleEditor>
       <ResumeEditor ref="resumeEditor" :markdown="currentMarkdown" :enableHtml="enableHtml"></ResumeEditor>
     </div>
@@ -53,6 +55,8 @@ export default {
       interval: 10,
       timer: '',
       state: 'keepOn',
+      controlCode: false,
+      controlCodeText: '显示代码',
       currentStyle: ``,
       fullStyle: [ `/*
 * Inspired by http://strml.net/
@@ -228,7 +232,24 @@ pre { color: #999cfe};
   background: #ddd;
 }
 
-`
+/*
+好了，代码就展示到这里，接下来重点是优化简历了
+*/
+/*先隐藏代码*/
+.styleEditor {
+  -webkit-transform: translateX(-200%);
+          transform: translateX(-200%);  
+}
+
+        `,
+        `
+.resumeEditor {
+   position: absolute;
+   left: 50%;
+   transform: translateX(-50%); 
+}
+
+        `
 
 ],
       currentMarkdown: '',
@@ -293,6 +314,10 @@ pre { color: #999cfe};
     this.makeResume();
   },
   methods: {
+    controlCodeEve() {
+      this.$refs.styleEditor.controlCode();
+      this.controlCodeText = this.controlCodeText === '显示代码' ? '隐藏代码' : '显示代码';
+    },
     stop() {
       this.state = 'stop';
       clearTimeout(this.timer);
@@ -310,6 +335,7 @@ pre { color: #999cfe};
       this.state = 'skip';
       this.immediatelyFillCode();
       this.enableHtml = true;
+      this.controlCode = true;
       this.immediatelyFillMarkdown();
       
       /*this.$refs.styleEditor.immediatelyShowCode();
@@ -336,7 +362,9 @@ pre { color: #999cfe};
       await this.graduallyShowStyle(1)
       await this.showHtml()
       await this.graduallyShowStyle(2)
-      /*this.state = 'over';*/
+      await this.showControlCode()
+      await this.graduallyShowStyle(3)
+      this.state = 'over';
     },
     graduallyShowStyle(n) {
       return new Promise((resolve, reject) => {
@@ -392,6 +420,14 @@ pre { color: #999cfe};
         }
       })
     },
+    showControlCode() {
+      return Promise.resolve({
+        then: (resolve, reject) => {
+          this.controlCode = true;
+          resolve();
+        }
+      })
+    }
     
   },
   components: {
@@ -407,6 +443,11 @@ pre { color: #999cfe};
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.styleEditor.showCode {
+  transform: scale(1);
+}
+
 
 .control {
   position: fixed;
@@ -447,6 +488,11 @@ pre { color: #999cfe};
 } 
 
 .again {
+  border: none;  outline: none;
+  width: 5em;  height: 3em;
+  cursor: pointer;
+}
+.controlCode {
   border: none;  outline: none;
   width: 5em;  height: 3em;
   cursor: pointer;

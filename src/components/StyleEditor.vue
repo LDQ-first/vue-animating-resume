@@ -23,9 +23,12 @@
             dragScrollBar() {
                 this.$refs.container.scrollTop = 100000;
             },
-            immediatelyShowCode() {
-                this.$refs.container.classList.add('showCode');
-            }
+            controlCode() {
+                this.$refs.container.classList.toggle('showCode');
+            },
+            /*hiddenCode() {
+                this.$refs.container.classList.toggle('showCode');
+            },*/
         }
     }
 </script>
