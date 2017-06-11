@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="app">
-      <button @click="controlCodeEve" v-show="controlCode" class="controlCode">{{controlCodeText}}</button>
+      <button @click="controlCodeEve" v-show="controlCode" class="controlCode btns">{{controlCodeText}}</button>
       <!--<button @click="hiddenCode" v-show="!showCode">隐藏代码</button>-->
       <StyleEditor ref="styleEditor" :code="currentStyle"></StyleEditor>
       <ResumeEditor ref="resumeEditor" :markdown="currentMarkdown" :enableHtml="enableHtml"></ResumeEditor>
@@ -237,8 +237,14 @@ pre { color: #999cfe};
 */
 /*先隐藏代码*/
 .styleEditor {
-  -webkit-transform: translateX(-200%);
-          transform: translateX(-200%);  
+  -webkit-transform: translate(-50%, -200%);
+          transform: translate(-50%, -200%);  
+  position: fixed;
+  top: 4em;
+  left: 50%;
+  width: 80vw;
+  height: 80vh;
+  z-index: 100;
 }
 
         `,
@@ -351,6 +357,8 @@ pre { color: #999cfe};
       this.currentMarkdown = this.fullMarkdown;
     },
     again() {
+      this.enableHtml = false;
+      this.controlCode = false;
       this.state = 'again';
       this.currentStyle = '';
       this.currentMarkdown = '';
@@ -445,7 +453,8 @@ pre { color: #999cfe};
 }
 
 .styleEditor.showCode {
-  transform: scale(1);
+  
+  transform: translate(-50%, 0);
 }
 
 
@@ -493,6 +502,7 @@ pre { color: #999cfe};
   cursor: pointer;
 }
 .controlCode {
+  margin: 10px;
   border: none;  outline: none;
   width: 5em;  height: 3em;
   cursor: pointer;
