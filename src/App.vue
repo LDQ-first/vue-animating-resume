@@ -5,22 +5,28 @@
       <ResumeEditor ref="resumeEditor" :markdown="currentMarkdown" :enableHtml="enableHtml"></ResumeEditor>
     </div>
     <button @click="speedUp" class="speedUp btns" id="speedUp">
-      <svg class="icon" aria-hidden="true">
+      <svg class="icon" id="icon" aria-hidden="true">
         <use xlink:href="#icon-yingyongjiasuqi"></use>
       </svg>
       加速
     </button>
     <button @click="stop" class="stop btns" id="stop" v-if="state != 'stop'">
-      <svg class="icon" aria-hidden="true">
+      <svg class="icon" id="icon"  aria-hidden="true">
         <use xlink:href="#icon-tag35"></use>
       </svg>
       停止
     </button>
     <button @click="keepOn" class="keepOn btns" id="keepOn" v-else>
-      <svg class="icon" aria-hidden="true">
+      <svg class="icon" id="icon" aria-hidden="true">
         <use xlink:href="#icon-rightsanjiao-copy"></use>
       </svg>
       继续
+    </button>
+    <button @click="skip" class="skip btns" id="skip">
+      <svg class="icon" id="icon" aria-hidden="true">
+        <use xlink:href="#icon-tiaoguo"></use>
+      </svg>
+      跳过
     </button>
   </div>
 </template>
@@ -135,6 +141,12 @@ pre { color: #999cfe};
   overflow: auto;
 }
 
+#icon {
+   color: #FFF;
+   font-size: 1.2em;
+   margin-right: 0.5em;
+}
+
 
 /*#stop {
   display: inline-block;left: 14em;
@@ -225,10 +237,14 @@ pre { color: #999cfe};
     },
     keepOn() {
       this.state = 'keepOn';
-       this.makeResume();
+      this.makeResume();
     },
     speedUp() {
       this.interval = 0;
+    },
+    skip() {
+      this.stop();
+      this.$refs.resumeEditor.immediatelyShowResume();
     },
     makeResume: async function () {
       await this.graduallyShowStyle(0)
@@ -315,6 +331,7 @@ pre { color: #999cfe};
    vertical-align: -0.15em;
    fill: currentColor;
    overflow: hidden;
+   
 }
 
 .stop {
@@ -332,5 +349,13 @@ pre { color: #999cfe};
   width: 10em;  height: 3em;
   cursor: pointer;
 }
+
+.skip {
+  border: none;  outline: none;
+  position: fixed;
+  bottom: 2em;  left: 38em;
+  width: 10em;  height: 3em;
+  cursor: pointer;
+} 
 
 </style>
