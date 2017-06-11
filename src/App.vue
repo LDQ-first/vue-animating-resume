@@ -80,8 +80,6 @@ html {
   background: #303030;
 }
 
-
-
 /* 代码高亮
   作为程序员，怎么能忍受代码都是一种颜色呢
 */
@@ -95,15 +93,21 @@ pre { color: #999cfe};
 /* 
   动画速度太慢了， 来个加速按钮吧
 */
-#speedUp {
-  display: inline-block;
-}
+#speedUp { display: inline-block; }
 
+/* 
+  想停止动画， 来个停止按钮吧
+*/
+#stop { display: inline-block; }
+
+/* 
+  想继续动画， 来个继续按钮吧
+*/
+#keepOn { display: inline-block; }
 
 /* 
   按钮样式太单调了，我们来装饰一下
 */
-
 .btns {
   border: none;  outline: none;
   margin-right: 0.5em;
@@ -153,7 +157,6 @@ pre { color: #999cfe};
    color: #FFF;
    font-size: 20px;
 }
-
 
 /*#stop {
   display: inline-block;left: 14em;
@@ -235,7 +238,6 @@ pre { color: #999cfe};
   },
   created() {
     this.makeResume();
-
   },
   methods: {
     stop() {
@@ -355,7 +357,6 @@ pre { color: #999cfe};
 .control {
   position: fixed;
   bottom: 0.5em;  left: 0.5em;
-  /*height: 3em;*/
   width: 100%;
   overflow-x: auto; 
 }
@@ -374,32 +375,26 @@ pre { color: #999cfe};
 
 .stop {
   border: none;  outline: none;
-  /*position: absolute;
-  bottom: 0;  left: 7em;*/
   width: 5em;  height: 3em;
   cursor: pointer;
+  display: none;
 }
 
 .keepOn {
   border: none;  outline: none;
-  /*position: absolute;
-  bottom: 0;  left: 7em;*/
   width: 5em;  height: 3em;
   cursor: pointer;
+  display: none;
 }
 
 .skip {
   border: none;  outline: none;
- /* position: absolute;
-  bottom: 0;  left: 14em;*/
   width: 5em;  height: 3em;
   cursor: pointer;
 } 
 
 .again {
   border: none;  outline: none;
-  /*position: absolute;
-  bottom: 0;  left: 21em;*/
   width: 5em;  height: 3em;
   cursor: pointer;
 }
