@@ -170,11 +170,6 @@ pre { color: #999cfe};
 /* 这个简历好像差点什么
  * 对了，这是 Markdown 格式的，我需要变成对 HR 更友好的格式
  * 简单，用开源工具翻译成 HTML 就行了
- *        预备
- *         3
- *         2
- *         1
- *        开始
  */
         `,
         `
@@ -183,9 +178,28 @@ pre { color: #999cfe};
   padding: 2em;
 }
 .resumeEditor h2{
-  display: inline-block;
-  border-bottom: 1px solid;
+ /* display: inline-block;*/
+ /* border-bottom: 1px solid;*/
   margin: 1em 0 .5em;
+  padding: 0.1em 0.5em;
+  border-left: 4px solid #FF7203;
+  background: #B79DFE;
+}
+.resumeEditor  p {
+  font-size: 18px;
+  line-height: 1.7em;
+}
+.resumeEditor img {
+   width: 50%;
+}
+.resumeEditor a {
+  color: #108ee9;
+  background: transparent;
+  text-decoration: none;
+  outline: none;
+  cursor: pointer;
+  -webkit-transition: color .3s ease;
+  transition: color .3s ease;
 }
 .resumeEditor ul,.resumeEditor ol{
   list-style: none;
@@ -207,6 +221,7 @@ pre { color: #999cfe};
   padding: .5em;
   background: #ddd;
 }
+
 `
 
 ],
@@ -221,16 +236,36 @@ pre { color: #999cfe};
 * JavaScript
 * Vue
 
+求职意向
+---
+前端工程师
+
+联系方式
+---
+* 手机：18826136763
+* 邮箱：2320975287@qq.com
+* 微信：18826136763
+
+![weChat](./static/img/weChat.png)
+
+* qq: 2320975287
+
+![QQ](./static/img/qq.jpg)
+
 项目
 ---
 1. Vue版CNode
 2. Vue版在线简历编辑器
+
 
 链接
 ----
 * [GitHub](https://github.com/LDQ-first)
 
 > 如果你喜欢这个效果，Fork [我的项目](https://github.com/LDQ-first/vue-animating-resume-1)
+
+
+![图片](./static/img/logo.png)
 
 `
 
