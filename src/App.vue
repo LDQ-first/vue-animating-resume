@@ -4,7 +4,7 @@
       <StyleEditor ref="styleEditor" :code="currentStyle"></StyleEditor>
       <ResumeEditor ref="resumeEditor" :markdown="currentMarkdown" :enableHtml="enableHtml"></ResumeEditor>
     </div>
-    <button @click="speedUp" class="speedUp">加速</button>
+    <button @click="speedUp" class="speedUp btns" id="speedUp">加速</button>
   </div>
 </template>
 
@@ -45,6 +45,7 @@ html {
   width: 45vw;  height: 90vh;
   background: #303030;
 }
+
 /* 代码高亮
   作为程序员，怎么能忍受代码都是一种颜色呢
 */
@@ -55,7 +56,49 @@ html {
 pre { color: #999cfe};
 .token.function { color: #2f9c0a; }
 
+/* 
+  动画速度太慢了， 来个加速按钮吧
+*/
+#speedUp {
+  display: inline-block;
+}
 
+/* 
+  按钮样式太单调了，我们来装饰一下
+*/
+
+.btns {
+  border: none;  outline: none;
+  position: fixed;
+  bottom: 2em;  left: 1em;
+  background: #03A9F4;
+  font-size: .25rem;  color: #EEE;
+  width: 100px;  height: 3em;
+  text-align: center;
+  cursor: pointer;
+  margin: 10px 0;
+  border-radius: .3rem;
+  transition: all .3s ease-in-out;
+  box-shadow: 0 2px 10px rgba(0,0,0,.5);
+}
+
+.btns::before, .btns::after  {
+    content: "";
+    position: absolute;
+    top: 4px;  bottom: 4px;  left: 12px;  right: 12px;
+    border: 2px solid #eee; border-top: 0;  border-bottom: 0;
+    transition: all .4s ease-in-out
+} 
+
+.btns::before {
+   transform: scale(0, 1);
+   border: 2px solid #EEE;
+   border-left: 0;  border-right: 0;
+}
+
+.btns::after { transform: scale(1, 0); }
+.btns:hover::before  { transform: scale(1); }
+.btns:hover::after  { transform: scale(1); }
 
 
 /* 接下来我给自己准备一个编辑器 */
@@ -225,7 +268,13 @@ pre { color: #999cfe};
   -moz-osx-font-smoothing: grayscale;
   
 }
+
 .speedUp {
+  display: none;
+}
+
+
+/*.btns {
   border: none;
   outline: none;
   position: fixed;
@@ -241,11 +290,11 @@ pre { color: #999cfe};
   transition: all .3s ease-in-out;
 }
 
-.speedUp:hover {
+.btns:hover {
     box-shadow: 0 2px 10px rgba(0,0,0,.5);
 }
 
-.speedUp::before, .speedUp::after  {
+.btns::before, .btns::after  {
     content: "";
     position: absolute;
     top: 4px;  bottom: 4px;  left: 12px;  right: 12px;
@@ -255,26 +304,26 @@ pre { color: #999cfe};
     transition: all .4s ease-in-out
 } 
 
-.speedUp::before {
+.btns::before {
    transform: scale(0, 1);
    border: 2px solid #EEE;
    border-left: 0;
    border-right: 0;
 }
 
-.speedUp::after {
+.btns::after {
    transform: scale(1, 0);
 }
 
-.speedUp:hover::before  {
+.btns:hover::before  {
    opacity: 1;
    transform: scale(1);
 }
 
-.speedUp:hover::after  {
+.btns:hover::after  {
    opacity: 1;
    transform: scale(1);
-}
+}*/
 
 
 
