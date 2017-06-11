@@ -26,9 +26,6 @@
             controlCode() {
                 this.$refs.container.classList.toggle('showCode');
             },
-            /*hiddenCode() {
-                this.$refs.container.classList.toggle('showCode');
-            },*/
         }
     }
 </script>

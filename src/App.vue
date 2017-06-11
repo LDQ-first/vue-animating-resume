@@ -10,7 +10,7 @@
           </li>
         </ul>
       </aside>
-      <StyleEditor ref="styleEditor" :code="currentStyle"></StyleEditor>
+      <StyleEditor ref="styleEditor" :code="currentStyle" ></StyleEditor>
       <ResumeEditor ref="resumeEditor" :markdown="currentMarkdown" :enableHtml="enableHtml"></ResumeEditor>
     </div>
     <div class="control clearfix" v-show="showControl">
@@ -60,7 +60,9 @@ export default {
   data() {
     return {
       asideArr: [
-        { tag: 'PDF下载', link: '刘德铨-应聘前端开发-2017.pdf'},
+        { tag: 'PDF下载', link: './static/img/刘德铨-应聘前端开发-2017.pdf'},
+        { tag: '源码', link: 'https://github.com/LDQ-first/vue-animating-resume-1'},
+        { tag: 'GitHub', link: 'https://github.com/LDQ-first'},
       ],
       showControl: true,
       interval: 10,
@@ -188,7 +190,6 @@ pre { color: #999cfe};
   padding: 2em;
 }
 .resumeEditor h2{
-  margin: 1em 0 .5em;
   padding: 0.1em 0.5em;
   border-left: 4px solid #FF7203;
   background: #B79DFE;
@@ -196,12 +197,16 @@ pre { color: #999cfe};
   font-size: 20px;
 }
 
-.resumeEditor h3{
+/*.resumeEditor h2:not(:nth-of-type(1)){
+  margin: 0.5em 0 .5em;
+}*/
+
+/*.resumeEditor h3{
   margin: 1em 0 .5em;
   padding: 0.1em 0.5em;
   border-left: 4px solid #FF7203;
   background: #B79DFE;
-}
+}*/
 
 .resumeEditor pre {
   color: #222;
@@ -216,7 +221,7 @@ pre { color: #999cfe};
 }
 
 .resumeEditor img {
-   width: 180px;
+   width: 170px;
 }
 .resumeEditor .icon {
    width: 1em; height: 1em;
@@ -253,7 +258,7 @@ pre { color: #999cfe};
 .resumeEditor blockquote {
   margin: 1em;
   padding: .5em;
-  background: #ddd;
+  background: #FFBD8D;
 }
 
 /*
@@ -266,6 +271,7 @@ pre { color: #999cfe};
    position: fixed; z-index: 100;
    top: 4em; left: 50%;
    width: 80vw; height: 80vh; margin: 0;
+   opacity: 0;
 }
         `,
         `
@@ -274,55 +280,92 @@ pre { color: #999cfe};
   width: 90vw; height: 82vh;
   margin: 0; padding: 0;
 }
-
 progress {
     width: 160px; height: 20px;
     border: 1px solid #0064B4;  
     background: #e6e6e6;
     color: #0064B4; 
 }
-
 progress::-moz-progress-bar { background: #0064B4; }
 progress::-webkit-progress-bar { background: #e6e6e6; }
 progress::-webkit-progress-value  { background: #0064B4; }
+
+.resumeEditor .icon {
+   margin-right: 0.4em;
+}
 
         `
 
 ],
       currentMarkdown: '',
       enableHtml: false,
-      fullMarkdown: `刘德铨
+      fullMarkdown: `<svg class="icon" id="icon" aria-hidden="true">
+    <use xlink:href="#icon-geren"></use>
+</svg>
+刘德铨
 ---
 在校大三学生，正在学习前端, 对前端有强烈的兴趣
 
+<svg class="icon" id="icon" aria-hidden="true">
+    <use xlink:href="#icon-diannao"></use>
+</svg>
 技能
 ---
-<pre> 
- HTML5       熟悉 <progress value="60" max="100"></progress>
- CSS3        熟悉 <progress value="60" max="100"></progress>
- SCSS        熟悉 <progress value="60" max="100"></progress>
- JavaScript  熟悉 <progress value="50" max="100"></progress>
- jQuery      熟悉 <progress value="70" max="100"></progress>
- Vue         熟悉 <progress value="40" max="100"></progress>
- Webpack     了解 <progress value="35" max="100"></progress>  
+<pre><svg class="icon" id="icon" aria-hidden="true">
+    <use xlink:href="#icon-html"></use>
+</svg>HTML5       熟悉  <progress value="60" max="100"></progress>
+<svg class="icon" id="icon" aria-hidden="true">
+    <use xlink:href="#icon-socialcss3"></use>
+</svg>CSS3        熟悉  <progress value="60" max="100"></progress>
+<svg class="icon" id="icon" aria-hidden="true">
+    <use xlink:href="#icon-sass"></use>
+</svg>SCSS        熟悉  <progress value="60" max="100"></progress>
+<svg class="icon" id="icon" aria-hidden="true">
+    <use xlink:href="#icon-js-copy"></use>
+</svg>JavaScript  熟悉  <progress value="50" max="100"></progress>
+<svg class="icon" id="icon" aria-hidden="true">
+    <use xlink:href="#icon-jquery"></use>
+</svg>jQuery      熟悉  <progress value="70" max="100"></progress>
+<svg class="icon" id="icon" aria-hidden="true">
+    <use xlink:href="#icon-vuejs"></use>
+</svg>Vue         熟悉  <progress value="40" max="100"></progress>
+<svg class="icon" id="icon" aria-hidden="true">
+    <use xlink:href="#icon-webpack-copy"></use>
+</svg>Webpack     了解  <progress value="35" max="100"></progress>  
 </pre>
 
+<svg class="icon" id="icon" aria-hidden="true">
+    <use xlink:href="#icon-mubiao"></use>
+</svg>
 求职意向
 ---
 前端工程师
 
+<svg class="icon" id="icon" aria-hidden="true">
+    <use xlink:href="#icon-lianxi"></use>
+</svg>
 联系方式
 ---
-* 手机：18826136763
-* 邮箱：2320975287@qq.com
-* 微信：18826136763
+* <svg class="icon" id="icon" aria-hidden="true">
+    <use xlink:href="#icon-shouji"></use>
+</svg>手机：18826136763
+* <svg class="icon" id="icon" aria-hidden="true">
+    <use xlink:href="#icon-youxiang"></use>
+</svg>邮箱：2320975287@qq.com
+* <svg class="icon" id="icon" aria-hidden="true">
+    <use xlink:href="#icon-weixin-copy-copy"></use>
+</svg>微信：18826136763
 
 <span class="contact">![weChat](./static/img/weChat.png)</span>
-
-* qq: 2320975287
+*  <svg class="icon" id="icon" aria-hidden="true">
+    <use xlink:href="#icon-QQ1"></use>
+</svg>qq: 2320975287
 
 <span class="contact">![QQ](./static/img/qq.jpg)</span>
 
+<svg class="icon" id="icon" aria-hidden="true">
+    <use xlink:href="#icon-xiangmu"></use>
+</svg>
 项目
 ---
 1. [Vue版CNode](https://ldq-first.github.io/vue-CNode-1/dist/#/)<a href="https://github.com/LDQ-first/vue-CNode-1" >
@@ -341,26 +384,22 @@ progress::-webkit-progress-value  { background: #0064B4; }
   </svg>
 </a>
 
+<svg class="icon" id="icon" aria-hidden="true">
+    <use xlink:href="#icon-jiaoyu"></use>
+</svg>
 教育背景
 ---
 - 就读于广东工业大学 计算机科学与技术 本科 
 - 英语四级
 
+<svg class="icon" id="icon" aria-hidden="true">
+    <use xlink:href="#icon-ziwomiaoshu"></use>
+</svg>
 自我评价和期望
 ---
-热衷于学习新技术，做事认真，对前端有浓厚的兴趣。
-
-我希望能够加入一个以技术驱动为导向，技术氛围浓厚，有发展空间的互联网公司 :)
-
-希望借此机会为贵司贡献自身所长
-
-链接
-----
-* [GitHub](https://github.com/LDQ-first)
-
-> 如果你喜欢这个效果，Fork [我的项目](https://github.com/LDQ-first/vue-animating-resume-1)
-
-
+> 热衷于学习新技术，做事认真，对前端有浓厚的兴趣。   
+> 我希望能够加入一个以技术驱动为导向，技术氛围浓厚，有发展空间的互联网公司 :)  
+> 希望借此机会为贵司贡献自身所长
 
 `
 
@@ -371,12 +410,12 @@ progress::-webkit-progress-value  { background: #0064B4; }
   },
   methods: {
     pureResume(tag) {
-      /*if(tag === 'PDF下载') {
+      if(tag === 'PDF下载') {
         this.skip();
         this.showControl = false;
         this.controlCode = false;
-
-      } */
+        this.$refs.resumeEditor.pureResume();
+      } 
     },
     controlCodeEve() {
       this.$refs.styleEditor.controlCode();
@@ -524,6 +563,11 @@ progress::-webkit-progress-value  { background: #0064B4; }
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow: auto;
+}
+
+a {
+    text-decoration: none;
 }
 
 aside {
@@ -548,11 +592,13 @@ aside a {
     width: 80px;
     height: 38px;
     line-height: 38px;
-    padding-left: 10px
+    padding-left: 10px;
+    color: #FFF;
 }
 
 .styleEditor.showCode {
   transform: translate(-50%, 0);
+  opacity: 1;
 }
 
 .optimizeResume {

@@ -19,8 +19,8 @@
             dragScrollBar() {
                 this.$refs.container.scrollTop = 100000;
             },
-            immediatelyShowResume() {
-                this.$refs.container.classList.add('showResume');
+            pureResume() {
+                this.$refs.container.classList.add('pureResume');
             }
         }
     }
@@ -37,6 +37,14 @@
         to {
             opacity: 1;
         }
+    }
+    .resumeEditor.pureResume {
+        left: 0;
+        top: 0;
+        transform: translateX(0);
+        width: 100%;
+        height: auto;
+        overflow: hidden;
     }
     
 </style>
