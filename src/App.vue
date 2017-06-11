@@ -5,25 +5,26 @@
       <ResumeEditor ref="resumeEditor" :markdown="currentMarkdown" :enableHtml="enableHtml"></ResumeEditor>
     </div>
     <div class="control clearfix">
-        <button @click="speedUp" class="speedUp btns" id="speedUp" v-show="state != 'stop' && state != 'skip'">
+        <button @click="speedUp" class="speedUp btns" id="speedUp" 
+        v-show="state != 'stop' && state != 'skip' && state != 'speedUp' && state != 'over' ">
           <svg class="icon" id="icon" aria-hidden="true">
             <use xlink:href="#icon-yingyongjiasuqi"></use>
           </svg>
           加速
         </button>
-        <button @click="stop" class="stop btns" id="stop" v-show="state != 'stop' && state != 'skip'">
+        <button @click="stop" class="stop btns" id="stop" v-show="state != 'stop' && state != 'skip' && state != 'over' ">
           <svg class="icon" id="icon"  aria-hidden="true">
             <use xlink:href="#icon-tag35"></use>
           </svg>
           停止
         </button>
-        <button @click="keepOn" class="keepOn btns" id="keepOn" v-show="state === 'stop'">
+        <button @click="keepOn" class="keepOn btns" id="keepOn" v-show="state === 'stop' && state != 'over' ">
           <svg class="icon" id="icon" aria-hidden="true">
             <use xlink:href="#icon-rightsanjiao-copy"></use>
           </svg>
           继续
         </button>
-        <button @click="skip" class="skip btns" id="skip" v-show="state != 'skip'">
+        <button @click="skip" class="skip btns" id="skip" v-show="state != 'skip' && state != 'over' ">
           <svg class="icon" id="icon" aria-hidden="true">
             <use xlink:href="#icon-tiaoguo"></use>
           </svg>
@@ -49,7 +50,7 @@ export default {
   name: 'app',
   data() {
     return {
-      interval: 50,
+      interval: 10,
       timer: '',
       state: 'keepOn',
       currentStyle: ``,
@@ -109,10 +110,11 @@ pre { color: #999cfe};
   按钮样式太单调了，我们来装饰一下
 */
 .btns {
+  background: #03A9F4;
+  color: #FFF;
   border: none;  outline: none;
   margin-right: 0.5em;
   float: left;
-  background: #03A9F4;
   font-size: .25rem;  color: #EEE;
   width: 5em;  height: 3em;
   text-align: center;
@@ -154,7 +156,6 @@ pre { color: #999cfe};
 }
 
 #icon {
-   color: #FFF;
    font-size: 20px;
 }
 
@@ -178,8 +179,6 @@ pre { color: #999cfe};
   padding: 2em;
 }
 .resumeEditor h2{
- /* display: inline-block;*/
- /* border-bottom: 1px solid;*/
   margin: 1em 0 .5em;
   padding: 0.1em 0.5em;
   border-left: 4px solid #FF7203;
@@ -192,7 +191,14 @@ pre { color: #999cfe};
 .resumeEditor img {
    width: 50%;
 }
+.resumeEditor .icon {
+   width: 1em; height: 1em;
+   vertical-align: -0.15em;
+   fill: currentColor;
+   overflow: hidden;
+}
 .resumeEditor a {
+  margin: 0 5px;
   color: #108ee9;
   background: transparent;
   text-decoration: none;
@@ -254,8 +260,21 @@ pre { color: #999cfe};
 
 项目
 ---
-1. Vue版CNode
-2. Vue版在线简历编辑器
+1. [Vue版CNode](https://ldq-first.github.io/vue-CNode-1/dist/#/)<a href="https://github.com/LDQ-first/vue-CNode-1" >
+  <svg class="icon" id="icon" aria-hidden="true">
+    <use xlink:href="#icon-github"></use>
+  </svg>
+</a>
+2. [Vue版在线简历编辑器](https://ldq-first.github.io/vue-cv-1/dist/#/)<a href="https://github.com/LDQ-first/vue-cv-1" >
+  <svg class="icon" id="icon" aria-hidden="true">
+    <use xlink:href="#icon-github"></use>
+  </svg>
+</a>
+3. [Vue版动态简历](https://ldq-first.github.io/vue-animating-resume-1/dist/)<a href="https://github.com/LDQ-first/vue-animating-resume-1" >
+  <svg class="icon" id="icon" aria-hidden="true">
+    <use xlink:href="#icon-github"></use>
+  </svg>
+</a>
 
 
 链接
@@ -263,6 +282,7 @@ pre { color: #999cfe};
 * [GitHub](https://github.com/LDQ-first)
 
 > 如果你喜欢这个效果，Fork [我的项目](https://github.com/LDQ-first/vue-animating-resume-1)
+
 
 
 `
@@ -282,6 +302,7 @@ pre { color: #999cfe};
       this.makeResume();
     },
     speedUp() {
+      this.state = 'speedUp';
       this.interval = 0;
     },
     skip() {
@@ -297,7 +318,6 @@ pre { color: #999cfe};
     immediatelyFillCode() {
       this.currentStyle = '';
       for(let style of this.fullStyle) {
-        console.log(style);
         this.currentStyle += style;
       } 
     },
@@ -316,6 +336,7 @@ pre { color: #999cfe};
       await this.graduallyShowStyle(1)
       await this.showHtml()
       await this.graduallyShowStyle(2)
+      /*this.state = 'over';*/
     },
     graduallyShowStyle(n) {
       return new Promise((resolve, reject) => {
@@ -328,12 +349,12 @@ pre { color: #999cfe};
           const prefixLength = length - style.length;
           if(this.currentStyle.length < length) {
             let len = this.currentStyle.length - prefixLength;
-            if(style.substring(len, len + 1) === '\n' && this.$refs.styleEditor) {
+            this.currentStyle += style.substring(len, len + 1) || ' ';
+            if(style.substring(len - 1, len) === '\n' && this.$refs.styleEditor) {
               this.$nextTick(()=> {
                 this.$refs.styleEditor.dragScrollBar();
               })
             }
-            this.currentStyle += style.substring(len, len + 1) || ' ';
             this.timer = setTimeout(showStyle, this.interval);
           } else {
             resolve();
@@ -403,7 +424,6 @@ pre { color: #999cfe};
    vertical-align: -0.15em;
    fill: currentColor;
    overflow: hidden;
-   
 }
 
 .stop {
