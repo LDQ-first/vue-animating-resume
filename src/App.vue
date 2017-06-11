@@ -47,6 +47,8 @@ html {
   background: #303030;
 }
 
+
+
 /* 代码高亮
   作为程序员，怎么能忍受代码都是一种颜色呢
 */
@@ -64,6 +66,7 @@ pre { color: #999cfe};
   display: inline-block;
 }
 
+
 /* 
   按钮样式太单调了，我们来装饰一下
 */
@@ -74,7 +77,7 @@ pre { color: #999cfe};
   bottom: 2em;  left: 1em;
   background: #03A9F4;
   font-size: .25rem;  color: #EEE;
-  width: 100px;  height: 3em;
+  width: 10em;  height: 3em;
   text-align: center;
   cursor: pointer;
   margin: 10px 0;
@@ -112,6 +115,16 @@ pre { color: #999cfe};
   background: white;  color: #222;
   overflow: auto;
 }
+
+
+/*#stop {
+  display: inline-block;left: 14em;
+}*/
+
+
+
+
+
 /* 好了，我开始写简历了 */
 
         `,
@@ -191,7 +204,7 @@ pre { color: #999cfe};
   },
   methods: {
     stop() {
-      
+
     },
     speedUp() {
       this.interval = 0;
@@ -278,7 +291,11 @@ pre { color: #999cfe};
 }
 
 .stop {
-
+  border: none;  outline: none;
+  position: fixed;
+  bottom: 2em;  left: 14em;
+  width: 10em;  height: 3em;
+  cursor: pointer;
 }
 
 
