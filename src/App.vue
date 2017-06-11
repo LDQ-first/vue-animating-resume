@@ -3,10 +3,17 @@
     <div id="app">
       <p  v-show="optimizeResume" class="optimizeResume">简历快速优化中……</p>
       <button @click="controlCodeEve" v-show="controlCode" class="controlCode btns">{{controlCodeText}}</button>
+      <aside>
+        <ul>
+          <li v-for="(item, index) in asideArr" :key="index">
+            <a :href="item.link" target="_blank" @click="pureResume(item.tag)">{{item.tag}}</a>
+          </li>
+        </ul>
+      </aside>
       <StyleEditor ref="styleEditor" :code="currentStyle"></StyleEditor>
       <ResumeEditor ref="resumeEditor" :markdown="currentMarkdown" :enableHtml="enableHtml"></ResumeEditor>
     </div>
-    <div class="control clearfix">
+    <div class="control clearfix" v-show="showControl">
         <button @click="speedUp" class="speedUp btns" id="speedUp" 
         v-show="interval != 0  && state != 'over' ">
           <svg class="icon" id="icon" aria-hidden="true">
@@ -52,6 +59,10 @@ export default {
   name: 'app',
   data() {
     return {
+      asideArr: [
+        { tag: 'PDF下载', link: '刘德铨-应聘前端开发-2017.pdf'},
+      ],
+      showControl: true,
       interval: 10,
       timer: '',
       state: 'keepOn',
@@ -227,10 +238,10 @@ pre { color: #999cfe};
   list-style: none;
   padding: 0.2em 1em;
 }
-/*.resumeEditor ul> li::before{
-  content: '•';
-  margin-right: .5em;
-}*/
+.resumeEditor ul li,.resumeEditor ol li{
+  padding: 0.2em 1em;
+}
+
 .resumeEditor ol {
   counter-reset: section;
 }
@@ -260,7 +271,7 @@ pre { color: #999cfe};
         `
 /*优化简历*/
 .resumeEditor {
-  width: 90vw; height: 80vh;
+  width: 90vw; height: 82vh;
   margin: 0; padding: 0;
 }
 
@@ -332,7 +343,8 @@ progress::-webkit-progress-value  { background: #0064B4; }
 
 教育背景
 ---
-- 就读于广东工业大学 本科
+- 就读于广东工业大学 计算机科学与技术 本科 
+- 英语四级
 
 自我评价和期望
 ---
@@ -358,6 +370,14 @@ progress::-webkit-progress-value  { background: #0064B4; }
     this.makeResume();
   },
   methods: {
+    pureResume(tag) {
+      /*if(tag === 'PDF下载') {
+        this.skip();
+        this.showControl = false;
+        this.controlCode = false;
+
+      } */
+    },
     controlCodeEve() {
       this.$refs.styleEditor.controlCode();
       this.controlCodeText = this.controlCodeText === '显示代码' ? '隐藏代码' : '显示代码';
@@ -396,6 +416,7 @@ progress::-webkit-progress-value  { background: #0064B4; }
     again() {
       clearTimeout(this.timer);
       this.timer = '';
+      this.showControl = true;
       this.interval = 10;
       this.enableHtml = false;
       this.controlCode = false;
@@ -503,6 +524,31 @@ progress::-webkit-progress-value  { background: #0064B4; }
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+aside {
+  position: fixed;
+  right: 0;
+  top: 30%;
+  z-index: 10;
+}
+
+aside ul li {
+  list-style: none;
+  background: #00A68F;
+  margin-bottom: 10px;
+  border-radius: 10px 0 0 10px;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),
+              0 3px 1px -2px rgba(0,0,0,.2),
+              0 1px 5px 0 rgba(0,0,0,.12);
+}
+
+aside a {
+    display: inline-block;
+    width: 80px;
+    height: 38px;
+    line-height: 38px;
+    padding-left: 10px
 }
 
 .styleEditor.showCode {
