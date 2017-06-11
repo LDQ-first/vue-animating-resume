@@ -4,11 +4,12 @@
       <StyleEditor ref="styleEditor" :code="currentStyle"></StyleEditor>
       <ResumeEditor ref="resumeEditor" :markdown="currentMarkdown" :enableHtml="enableHtml"></ResumeEditor>
     </div>
-    <button @click="stop" class="stop">停止</button>
+    <button @click="speedUp" class="speedUp">加速</button>
   </div>
 </template>
 
 <script>
+ import './assets/reset.css'
  import StyleEditor from './components/StyleEditor'
  import ResumeEditor from './components/ResumeEditor'
 
@@ -41,8 +42,7 @@ html {
   border: 1px solid;
   margin: .5em;
   overflow: auto;
-  width: 45vw;
-  height: 90vh;
+  width: 45vw;  height: 90vh;
   background: #303030;
 }
 /* 代码高亮
@@ -59,17 +59,60 @@ pre { color: #999cfe};
 
 
 /* 接下来我给自己准备一个编辑器 */
-.resumeEditor{
-  position: fixed; right: 0; top: 0;
+.resumeEditor {
+  position: fixed;
+  right: 0; top: 0;
   padding: .5em;  margin: .5em;
-  width: 48vw; height: 90vh; 
+  width: 48vw;  height: 90vh; 
   border: 1px solid;
-  background: white; color: #222;
+  background: white;  color: #222;
   overflow: auto;
 }
 /* 好了，我开始写简历了 */
 
         `,
+        `
+/* 这个简历好像差点什么
+ * 对了，这是 Markdown 格式的，我需要变成对 HR 更友好的格式
+ * 简单，用开源工具翻译成 HTML 就行了
+ *        预备
+ *         3
+ *         2
+ *         1
+ *        开始
+ */
+        `,
+        `
+/* 再对 HTML 加点样式 */
+.resumeEditor{
+  padding: 2em;
+}
+.resumeEditor h2{
+  display: inline-block;
+  border-bottom: 1px solid;
+  margin: 1em 0 .5em;
+}
+.resumeEditor ul,.resumeEditor ol{
+  list-style: none;
+}
+.resumeEditor ul> li::before{
+  content: '•';
+  margin-right: .5em;
+}
+.resumeEditor ol {
+  counter-reset: section;
+}
+.resumeEditor ol li::before {
+  counter-increment: section;            
+  content: counters(section, ".") " ";  
+  margin-right: .5em;
+}
+.resumeEditor blockquote {
+  margin: 1em;
+  padding: .5em;
+  background: #ddd;
+}
+`
 
 ],
       currentMarkdown: '',
@@ -103,12 +146,15 @@ pre { color: #999cfe};
 
   },
   methods: {
-    stop() {
+    speedUp() {
       this.interval = 0;
     },
     makeResume: async function () {
       await this.graduallyShowStyle(0)
       await this.graduallyShowResume()
+      await this.graduallyShowStyle(1)
+      await this.showHtml()
+      await this.graduallyShowStyle(2)
     },
     graduallyShowStyle(n) {
       return new Promise((resolve, reject) => {
@@ -155,6 +201,14 @@ pre { color: #999cfe};
           showResume()
         }
       })
+    },
+    showHtml() {
+      return Promise.resolve({
+        then: (resolve, reject) => {
+          this.enableHtml = true;
+          resolve();
+        }
+      })
     }
   },
   components: {
@@ -171,8 +225,58 @@ pre { color: #999cfe};
   -moz-osx-font-smoothing: grayscale;
   
 }
-.stop {
+.speedUp {
+  border: none;
+  outline: none;
   position: fixed;
-  bottom: 20px;
+  bottom: 2em;  left: 1em;
+  background: #03A9F4;
+  font-size: .25rem;
+  color: #EEE;
+  width: 100px;  height: 3em;
+  display: flex;  justify-content: center;
+  cursor: pointer;
+  margin: 10px 0;
+  border-radius: .3rem;
+  transition: all .3s ease-in-out;
 }
+
+.speedUp:hover {
+    box-shadow: 0 2px 10px rgba(0,0,0,.5);
+}
+
+.speedUp::before, .speedUp::after  {
+    content: "";
+    position: absolute;
+    top: 4px;  bottom: 4px;  left: 12px;  right: 12px;
+    opacity: 0;
+    border: 2px solid #eee;
+    border-top: 0;  border-bottom: 0;
+    transition: all .4s ease-in-out
+} 
+
+.speedUp::before {
+   transform: scale(0, 1);
+   border: 2px solid #EEE;
+   border-left: 0;
+   border-right: 0;
+}
+
+.speedUp::after {
+   transform: scale(1, 0);
+}
+
+.speedUp:hover::before  {
+   opacity: 1;
+   transform: scale(1);
+}
+
+.speedUp:hover::after  {
+   opacity: 1;
+   transform: scale(1);
+}
+
+
+
+
 </style>
