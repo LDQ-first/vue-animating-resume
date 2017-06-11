@@ -5,6 +5,7 @@
       <ResumeEditor ref="resumeEditor" :markdown="currentMarkdown" :enableHtml="enableHtml"></ResumeEditor>
     </div>
     <button @click="speedUp" class="speedUp btns" id="speedUp">加速</button>
+    <button @click="stop" class="stop btns" id="stop">停止</button>
   </div>
 </template>
 
@@ -189,6 +190,9 @@ pre { color: #999cfe};
 
   },
   methods: {
+    stop() {
+      
+    },
     speedUp() {
       this.interval = 0;
     },
@@ -273,57 +277,10 @@ pre { color: #999cfe};
   display: none;
 }
 
+.stop {
 
-/*.btns {
-  border: none;
-  outline: none;
-  position: fixed;
-  bottom: 2em;  left: 1em;
-  background: #03A9F4;
-  font-size: .25rem;
-  color: #EEE;
-  width: 100px;  height: 3em;
-  display: flex;  justify-content: center;
-  cursor: pointer;
-  margin: 10px 0;
-  border-radius: .3rem;
-  transition: all .3s ease-in-out;
 }
 
-.btns:hover {
-    box-shadow: 0 2px 10px rgba(0,0,0,.5);
-}
-
-.btns::before, .btns::after  {
-    content: "";
-    position: absolute;
-    top: 4px;  bottom: 4px;  left: 12px;  right: 12px;
-    opacity: 0;
-    border: 2px solid #eee;
-    border-top: 0;  border-bottom: 0;
-    transition: all .4s ease-in-out
-} 
-
-.btns::before {
-   transform: scale(0, 1);
-   border: 2px solid #EEE;
-   border-left: 0;
-   border-right: 0;
-}
-
-.btns::after {
-   transform: scale(1, 0);
-}
-
-.btns:hover::before  {
-   opacity: 1;
-   transform: scale(1);
-}
-
-.btns:hover::after  {
-   opacity: 1;
-   transform: scale(1);
-}*/
 
 
 
