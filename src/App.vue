@@ -8,13 +8,13 @@
     </div>
     <div class="control clearfix">
         <button @click="speedUp" class="speedUp btns" id="speedUp" 
-        v-show="state != 'stop' && state != 'skip' && state != 'speedUp' && state != 'over' ">
+        v-show="interval != 0  && state != 'over' ">
           <svg class="icon" id="icon" aria-hidden="true">
             <use xlink:href="#icon-yingyongjiasuqi"></use>
           </svg>
           加速
         </button>
-        <button @click="stop" class="stop btns" id="stop" v-show="state != 'stop' && state != 'skip' && state != 'over' ">
+        <button @click="stop" class="stop btns" id="stop" v-show="state != 'stop' && state != 'over' ">
           <svg class="icon" id="icon"  aria-hidden="true">
             <use xlink:href="#icon-tag35"></use>
           </svg>
@@ -26,7 +26,7 @@
           </svg>
           继续
         </button>
-        <button @click="skip" class="skip btns" id="skip" v-show="state != 'skip' && state != 'over' ">
+        <button @click="skip" class="skip btns" id="skip" v-show="state != 'over' ">
           <svg class="icon" id="icon" aria-hidden="true">
             <use xlink:href="#icon-tiaoguo"></use>
           </svg>
@@ -66,7 +66,6 @@ export default {
 
 /* 首先给所有元素加上过渡效果 */
 * {
-  -webkit-transition: all .3s;
   transition: all .3s;
 }
 /* 白色背景太单调了，我们来点背景 */
@@ -163,13 +162,7 @@ pre { color: #999cfe};
    font-size: 20px;
 }
 
-/*#stop {
-  display: inline-block;left: 14em;
-}*/
-
-
 /* 好了，我开始写简历了 */
-
         `,
         `
 /* 这个简历好像差点什么
@@ -235,25 +228,19 @@ pre { color: #999cfe};
 /*
 好了，代码就展示到这里，接下来重点是优化简历了
 */
-/*先隐藏代码*/
-.styleEditor {
-  -webkit-transform: translate(-50%, -200%);
-          transform: translate(-50%, -200%);  
-  position: fixed;
-  top: 4em;
-  left: 50%;
-  width: 80vw;
-  height: 80vh;
-  z-index: 100;
+/*隐藏代码*/
+.styleEditor { transform: translate(-50%, -200%); }
+.resumeEditor { position: absolute; left: 50%; transform: translateX(-50%); }
+.styleEditor { 
+   position: fixed; z-index: 100;
+   top: 4em; left: 50%;
+   width: 80vw; height: 80vh;
 }
-
         `,
         `
-.resumeEditor {
-   position: absolute;
-   left: 50%;
-   transform: translateX(-50%); 
-}
+/*优化简历*/
+.resumeEditor
+
 
         `
 
@@ -338,14 +325,12 @@ pre { color: #999cfe};
     },
     skip() {
       this.stop();
-      this.state = 'skip';
+      this.state = 'over';
       this.immediatelyFillCode();
       this.enableHtml = true;
       this.controlCode = true;
       this.immediatelyFillMarkdown();
-      
-      /*this.$refs.styleEditor.immediatelyShowCode();
-      this.$refs.resumeEditor.immediatelyShowResume();*/
+      this.controlCodeText = '显示代码';
     },
     immediatelyFillCode() {
       this.currentStyle = '';
@@ -357,11 +342,15 @@ pre { color: #999cfe};
       this.currentMarkdown = this.fullMarkdown;
     },
     again() {
+      clearTimeout(this.timer);
+      this.timer = '';
+      this.interval = 10;
       this.enableHtml = false;
       this.controlCode = false;
-      this.state = 'again';
+      this.state = 'keepOn';
       this.currentStyle = '';
       this.currentMarkdown = '';
+      this.controlCodeText = '显示代码';
       this.makeResume();
     },
     makeResume: async function () {
@@ -371,6 +360,7 @@ pre { color: #999cfe};
       await this.showHtml()
       await this.graduallyShowStyle(2)
       await this.showControlCode()
+      await this.immediatelyCode()
       await this.graduallyShowStyle(3)
       this.state = 'over';
     },
@@ -435,6 +425,14 @@ pre { color: #999cfe};
           resolve();
         }
       })
+    },
+    immediatelyCode() {
+      return Promise.resolve({
+        then: (resolve, reject) => {
+          this.speedUp();
+          resolve();
+        }
+      })
     }
     
   },
@@ -453,10 +451,8 @@ pre { color: #999cfe};
 }
 
 .styleEditor.showCode {
-  
   transform: translate(-50%, 0);
 }
-
 
 .control {
   position: fixed;
@@ -477,34 +473,14 @@ pre { color: #999cfe};
 }
 
 .stop {
-  border: none;  outline: none;
-  width: 5em;  height: 3em;
-  cursor: pointer;
   display: none;
 }
 
 .keepOn {
-  border: none;  outline: none;
-  width: 5em;  height: 3em;
-  cursor: pointer;
   display: none;
 }
 
-.skip {
-  border: none;  outline: none;
-  width: 5em;  height: 3em;
-  cursor: pointer;
-} 
-
-.again {
-  border: none;  outline: none;
-  width: 5em;  height: 3em;
-  cursor: pointer;
-}
 .controlCode {
   margin: 10px;
-  border: none;  outline: none;
-  width: 5em;  height: 3em;
-  cursor: pointer;
 }
 </style>
