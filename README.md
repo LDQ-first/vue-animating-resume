@@ -12,7 +12,7 @@
 - svg 字体图标
 
 ## 总结
-> 利用 Async/Await Promise 实现按步骤绘制动态简历
+> 利用 Async/Await Promise 实现按步骤绘制动态简历  
 > 实现了加速、播放、暂停、跳过、重来、下载PDF等功能
 
 
