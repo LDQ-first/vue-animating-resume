@@ -1,6 +1,20 @@
 # vue-animating-resume-1
 
-> A Vue.js project
+> A Vue.js 版的动态响应式简历
+
+## 技术栈
+- Vue  前端框架
+- ES6/7 采用最新JS语法
+- Async/Await Promise 用于处理异步事件流
+- Marked 识别markdown语法
+- Prismjs 实现语法高亮
+- Express vue-cli 自带服务器
+- svg 字体图标
+
+## 总结
+> 利用 Async/Await Promise 实现按步骤绘制动态简历
+> 实现了加速、播放、暂停、跳过、重来、下载PDF等功能
+
 
 ## Build Setup
 

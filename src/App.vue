@@ -3,7 +3,7 @@
     <div id="app">
       <p  v-show="optimizeResume" class="optimizeResume">简历快速优化中……</p>
       <button @click="controlCodeEve" v-show="controlCode" class="controlCode btns">{{controlCodeText}}</button>
-      <aside>
+      <aside v-show="state === 'over'">
         <ul>
           <li v-for="(item, index) in asideArr" :key="index" >
             <a :href="item.link" target="_blank" @click="pureResume(item.tag)">{{item.tag}}</a>
@@ -60,12 +60,12 @@ export default {
   data() {
     return {
       asideArr: [
-        { tag: 'PDF下载', link: './static/img/刘德铨-应聘前端开发-2017.pdf'},
+        { tag: 'PDF下载', link: './static/刘德铨-应聘前端开发-2017.pdf'},
         { tag: '源码', link: 'https://github.com/LDQ-first/vue-animating-resume-1'},
         { tag: 'GitHub', link: 'https://github.com/LDQ-first'},
       ],
       showControl: true,
-      interval: 10,
+      interval: 50,
       timer: '',
       state: 'keepOn',
       controlCode: false,
@@ -267,6 +267,12 @@ progress::-webkit-progress-value  { background: #0064B4; }
 @media screen and (max-width: 450px) {
   progress { display: block; }
 }
+.resumeEditor img.webpack { 
+  width: 20px; height: 20px;
+  margin-right:0.4em;
+  display: inline-block;vertical-align: middle
+}
+.resumeEditor .github { color: #000 }
 .resumeEditor .icon { box-sizing: content-box; }
 .resumeEditor .icon-border {
    display: block; height: calc(1.5em + 7px); border-bottom: 2px solid #CCC;
@@ -317,9 +323,7 @@ progress::-webkit-progress-value  { background: #0064B4; }
 <svg class="icon" id="icon" aria-hidden="true">
     <use xlink:href="#icon-vuejs"></use>
 </svg>Vue         熟悉  <progress value="40" max="100"></progress>
-<svg class="icon" id="icon" aria-hidden="true">
-    <use xlink:href="#icon-webpack-copy"></use>
-</svg>Webpack     了解  <progress value="35" max="100"></progress>  
+<img src="../static/img/webpack.png" class="webpack">Webpack     了解  <progress value="35" max="100"></progress>  
 </pre>
 
 <span class="icon-border">
@@ -339,17 +343,17 @@ progress::-webkit-progress-value  { background: #0064B4; }
 项目
 ---
 1. [Vue版CNode](https://ldq-first.github.io/vue-CNode-1/dist/#/)<a href="https://github.com/LDQ-first/vue-CNode-1" >
-  <svg class="icon" id="icon" aria-hidden="true">
+  <svg class="icon github" id="icon" aria-hidden="true">
     <use xlink:href="#icon-github"></use>
   </svg>
 </a>
 2. [Vue版在线简历编辑器](https://ldq-first.github.io/vue-cv-1/dist/#/)<a href="https://github.com/LDQ-first/vue-cv-1" >
-  <svg class="icon" id="icon" aria-hidden="true">
+  <svg class="icon github" id="icon" aria-hidden="true">
     <use xlink:href="#icon-github"></use>
   </svg>
 </a>
 3. [Vue版动态简历](https://ldq-first.github.io/vue-animating-resume-1/dist/)<a href="https://github.com/LDQ-first/vue-animating-resume-1" >
-  <svg class="icon" id="icon" aria-hidden="true">
+  <svg class="icon github" id="icon" aria-hidden="true">
     <use xlink:href="#icon-github"></use>
   </svg>
 </a>
@@ -411,9 +415,10 @@ progress::-webkit-progress-value  { background: #0064B4; }
     pureResume(tag) {
       if(tag === 'PDF下载') {
         this.skip();
-        this.showControl = false;
+        /*this.showControl = false;
         this.controlCode = false;
-        this.$refs.resumeEditor.pureResume();
+        this.state = 'pure';
+        this.$refs.resumeEditor.pureResume();*/
       } 
     },
     controlCodeEve() {
@@ -455,7 +460,7 @@ progress::-webkit-progress-value  { background: #0064B4; }
       clearTimeout(this.timer);
       this.timer = '';
       this.showControl = true;
-      this.interval = 10;
+      this.interval = 50;
       this.enableHtml = false;
       this.controlCode = false;
       this.optimizeResume = false;
