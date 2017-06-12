@@ -38,6 +38,9 @@
             opacity: 1;
         }
     }
+    /*.resumeEditor {
+        min-width: 450px;
+    }*/
     .resumeEditor.pureResume {
         left: 0;
         top: 0;

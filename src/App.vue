@@ -5,7 +5,7 @@
       <button @click="controlCodeEve" v-show="controlCode" class="controlCode btns">{{controlCodeText}}</button>
       <aside>
         <ul>
-          <li v-for="(item, index) in asideArr" :key="index">
+          <li v-for="(item, index) in asideArr" :key="index" >
             <a :href="item.link" target="_blank" @click="pureResume(item.tag)">{{item.tag}}</a>
           </li>
         </ul>
@@ -141,7 +141,6 @@ pre { color: #999cfe};
   box-shadow: 0 2px 10px rgba(0,0,0,.5);
   position: relative;
 }
-
 .btns::before, .btns::after  {
     content: "";
     position: absolute;
@@ -165,30 +164,24 @@ pre { color: #999cfe};
 .resumeEditor {
   position: fixed;
   right: 0; top: 0;
-  padding: .5em;  margin: .5em;
+  padding: 1em;  margin: .5em;
   width: 48vw;  height: 90vh; 
   border: 1px solid;
   background: white;  color: #222;
   overflow: auto;
 }
-
-#icon {
-   font-size: 20px;
-}
+#icon { font-size: 20px; }
 
 /* 好了，我开始写简历了 */
         `,
         `
 /* 这个简历好像差点什么
- * 对了，这是 Markdown 格式的，我需要变成对 HR 更友好的格式
+ * 对了，这是 Markdown + Html 格式的，我需要变成对 HR 更友好的格式
  * 简单，用开源工具翻译成 HTML 就行了
  */
         `,
         `
 /* 再对 HTML 加点样式 */
-.resumeEditor{
-  padding: 2em;
-}
 .resumeEditor h2{
   padding: 0.1em 0.5em;
   border-left: 4px solid #FF7203;
@@ -196,47 +189,30 @@ pre { color: #999cfe};
   color: #222;
   font-size: 20px;
 }
-
-/*.resumeEditor h2:not(:nth-of-type(1)){
-  margin: 0.5em 0 .5em;
-}*/
-
-/*.resumeEditor h3{
-  margin: 1em 0 .5em;
-  padding: 0.1em 0.5em;
-  border-left: 4px solid #FF7203;
-  background: #B79DFE;
-}*/
-
 .resumeEditor pre {
   color: #222;
   line-height: 1.4em;
   padding: 0.2em 1em;
 }
-
 .resumeEditor  p {
   font-size: 18px;
   line-height: 1.7em;
   padding: 0.2em 1em;
 }
-
-.resumeEditor img {
-   width: 170px;
-}
+.resumeEditor img { width: 170px; }
 .resumeEditor .icon {
    width: 1em; height: 1em;
+   margin-right: 0.4em;
    vertical-align: -0.15em;
    fill: currentColor;
    overflow: hidden;
 }
 .resumeEditor a {
   margin: 0 5px;
-  color: #108ee9;
-  background: transparent;
+  color: #108ee9; background: transparent;
   text-decoration: none;
   outline: none;
   cursor: pointer;
-  -webkit-transition: color .3s ease;
   transition: color .3s ease;
 }
 .resumeEditor ul,.resumeEditor ol{
@@ -246,7 +222,6 @@ pre { color: #999cfe};
 .resumeEditor ul li,.resumeEditor ol li{
   padding: 0.2em 1em;
 }
-
 .resumeEditor ol {
   counter-reset: section;
 }
@@ -256,8 +231,7 @@ pre { color: #999cfe};
   margin-right: .5em;
 }
 .resumeEditor blockquote {
-  margin: 1em;
-  padding: .5em;
+  margin: 1em; padding: .5em;
   background: #FFBD8D;
 }
 
@@ -270,15 +244,15 @@ pre { color: #999cfe};
 .styleEditor { 
    position: fixed; z-index: 100;
    top: 4em; left: 50%;
-   width: 80vw; height: 80vh; margin: 0;
+   width: 90vw; height: 80vh; margin: 0;
    opacity: 0;
 }
         `,
         `
 /*优化简历*/
 .resumeEditor {
-  width: 90vw; height: 82vh;
-  margin: 0; padding: 0;
+  width: 90vw;  min-width: 320px; height: 82vh;
+  margin: 0;
 }
 progress {
     width: 160px; height: 20px;
@@ -290,25 +264,39 @@ progress::-moz-progress-bar { background: #0064B4; }
 progress::-webkit-progress-bar { background: #e6e6e6; }
 progress::-webkit-progress-value  { background: #0064B4; }
 
-.resumeEditor .icon {
-   margin-right: 0.4em;
+@media screen and (max-width: 450px) {
+  progress { display: block; }
 }
-
+.resumeEditor .icon { box-sizing: content-box; }
+.resumeEditor .icon-border {
+   display: block; height: calc(1.5em + 7px); border-bottom: 2px solid #CCC;
+}
+.resumeEditor .icon-border .icon {
+   width: 5em; height: 1.5em;
+   border-bottom: 4px solid #2AA8E9;
+}
+.resumeEditor p{ padding: 0.2em 0; }
+.resumeEditor p:not(:nth-of-type(1)) { margin-top: 0.5em; }
         `
 
 ],
       currentMarkdown: '',
       enableHtml: false,
-      fullMarkdown: `<svg class="icon" id="icon" aria-hidden="true">
-    <use xlink:href="#icon-geren"></use>
-</svg>
+      fullMarkdown: `
+<span class="icon-border">
+  <svg class="icon" id="icon" aria-hidden="true">
+      <use xlink:href="#icon-geren"></use>
+  </svg>
+</span>
 刘德铨
 ---
 在校大三学生，正在学习前端, 对前端有强烈的兴趣
 
-<svg class="icon" id="icon" aria-hidden="true">
-    <use xlink:href="#icon-diannao"></use>
-</svg>
+<span class="icon-border">
+  <svg class="icon" id="icon" aria-hidden="true">
+      <use xlink:href="#icon-diannao"></use>
+  </svg>
+</span>
 技能
 ---
 <pre><svg class="icon" id="icon" aria-hidden="true">
@@ -334,16 +322,43 @@ progress::-webkit-progress-value  { background: #0064B4; }
 </svg>Webpack     了解  <progress value="35" max="100"></progress>  
 </pre>
 
-<svg class="icon" id="icon" aria-hidden="true">
-    <use xlink:href="#icon-mubiao"></use>
-</svg>
+<span class="icon-border">
+  <svg class="icon" id="icon" aria-hidden="true">
+      <use xlink:href="#icon-mubiao"></use>
+  </svg>
+</span>
 求职意向
 ---
 前端工程师
 
-<svg class="icon" id="icon" aria-hidden="true">
-    <use xlink:href="#icon-lianxi"></use>
-</svg>
+<span class="icon-border">
+  <svg class="icon" id="icon" aria-hidden="true">
+      <use xlink:href="#icon-xiangmu"></use>
+  </svg>
+</span>
+项目
+---
+1. [Vue版CNode](https://ldq-first.github.io/vue-CNode-1/dist/#/)<a href="https://github.com/LDQ-first/vue-CNode-1" >
+  <svg class="icon" id="icon" aria-hidden="true">
+    <use xlink:href="#icon-github"></use>
+  </svg>
+</a>
+2. [Vue版在线简历编辑器](https://ldq-first.github.io/vue-cv-1/dist/#/)<a href="https://github.com/LDQ-first/vue-cv-1" >
+  <svg class="icon" id="icon" aria-hidden="true">
+    <use xlink:href="#icon-github"></use>
+  </svg>
+</a>
+3. [Vue版动态简历](https://ldq-first.github.io/vue-animating-resume-1/dist/)<a href="https://github.com/LDQ-first/vue-animating-resume-1" >
+  <svg class="icon" id="icon" aria-hidden="true">
+    <use xlink:href="#icon-github"></use>
+  </svg>
+</a>
+
+<span class="icon-border">
+  <svg class="icon" id="icon" aria-hidden="true">
+      <use xlink:href="#icon-lianxi"></use>
+  </svg>
+</span>
 联系方式
 ---
 * <svg class="icon" id="icon" aria-hidden="true">
@@ -363,38 +378,22 @@ progress::-webkit-progress-value  { background: #0064B4; }
 
 <span class="contact">![QQ](./static/img/qq.jpg)</span>
 
-<svg class="icon" id="icon" aria-hidden="true">
-    <use xlink:href="#icon-xiangmu"></use>
-</svg>
-项目
----
-1. [Vue版CNode](https://ldq-first.github.io/vue-CNode-1/dist/#/)<a href="https://github.com/LDQ-first/vue-CNode-1" >
-  <svg class="icon" id="icon" aria-hidden="true">
-    <use xlink:href="#icon-github"></use>
-  </svg>
-</a>
-2. [Vue版在线简历编辑器](https://ldq-first.github.io/vue-cv-1/dist/#/)<a href="https://github.com/LDQ-first/vue-cv-1" >
-  <svg class="icon" id="icon" aria-hidden="true">
-    <use xlink:href="#icon-github"></use>
-  </svg>
-</a>
-3. [Vue版动态简历](https://ldq-first.github.io/vue-animating-resume-1/dist/)<a href="https://github.com/LDQ-first/vue-animating-resume-1" >
-  <svg class="icon" id="icon" aria-hidden="true">
-    <use xlink:href="#icon-github"></use>
-  </svg>
-</a>
 
-<svg class="icon" id="icon" aria-hidden="true">
-    <use xlink:href="#icon-jiaoyu"></use>
-</svg>
+<span class="icon-border">
+  <svg class="icon" id="icon" aria-hidden="true">
+      <use xlink:href="#icon-jiaoyu"></use>
+  </svg>
+</span>
 教育背景
 ---
 - 就读于广东工业大学 计算机科学与技术 本科 
 - 英语四级
 
-<svg class="icon" id="icon" aria-hidden="true">
-    <use xlink:href="#icon-ziwomiaoshu"></use>
-</svg>
+<span class="icon-border">
+  <svg class="icon" id="icon" aria-hidden="true">
+      <use xlink:href="#icon-ziwomiaoshu"></use>
+  </svg>
+</span>
 自我评价和期望
 ---
 > 热衷于学习新技术，做事认真，对前端有浓厚的兴趣。   
