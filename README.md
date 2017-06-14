@@ -17,7 +17,7 @@
 > 利用 Async/Await Promise 实现按步骤绘制动态简历  
 > 实现了加速、播放、暂停、跳过、重来、下载PDF等功能  
 > 开启webpack和babel-loader缓存提高构建速度
-
+> 用于FireFox显示pdf排版有错，所以遇到Firefox时，点击下载PDF后没有预览而采用直接下载
 
 ## Build Setup
 

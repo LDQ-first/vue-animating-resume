@@ -6,7 +6,7 @@
       <aside v-show="state === 'over'">
         <ul>
           <li v-for="(item, index) in asideArr" :key="index" >
-            <a :href="item.link" target="_blank" v-if="isFireFox() && item.tag === 'PDF下载'" download
+            <a :href="item.link" target="_blank" v-if="isFirefox() && item.tag === 'PDF下载'" download
                >{{item.tag}}</a>
             <!--<a :href="item.link" target="_blank"  v-else @click="pureResume(item.tag)">{{item.tag}}</a>-->
             <a :href="item.link" target="_blank"  v-else>{{item.tag}}</a>
@@ -427,8 +427,7 @@ progress::-webkit-progress-value  { background: #0064B4; }
     this.makeResume();
   },
   methods: {
-    isFireFox() {
-      console.log(navigator.userAgent.indexOf('Firefox') >-1)
+    isFirefox() {
       return navigator.userAgent.indexOf('Firefox') >-1;
     },
     /*pureResume(tag) {
