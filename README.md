@@ -2,6 +2,8 @@
 
 > A Vue.js 版的动态响应式简历
 
+**[预览地址](https://ldq-first.github.io/vue-animating-resume-1/dist/)**
+
 ## 技术栈
 - Vue  前端框架
 - ES6/7 采用最新JS语法
@@ -13,7 +15,8 @@
 
 ## 总结
 > 利用 Async/Await Promise 实现按步骤绘制动态简历  
-> 实现了加速、播放、暂停、跳过、重来、下载PDF等功能
+> 实现了加速、播放、暂停、跳过、重来、下载PDF等功能  
+> 开启webpack和babel-loader缓存提高构建速度
 
 
 ## Build Setup

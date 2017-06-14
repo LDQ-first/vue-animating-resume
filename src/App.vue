@@ -6,7 +6,10 @@
       <aside v-show="state === 'over'">
         <ul>
           <li v-for="(item, index) in asideArr" :key="index" >
-            <a :href="item.link" target="_blank" @click="pureResume(item.tag)">{{item.tag}}</a>
+            <a :href="item.link" target="_blank" v-if="isFireFox() && item.tag === 'PDF下载'" download
+               >{{item.tag}}</a>
+            <!--<a :href="item.link" target="_blank"  v-else @click="pureResume(item.tag)">{{item.tag}}</a>-->
+            <a :href="item.link" target="_blank"  v-else>{{item.tag}}</a>
           </li>
         </ul>
       </aside>
@@ -63,6 +66,7 @@ export default {
         { tag: 'PDF下载', link: './static/刘德铨-应聘前端开发-2017.pdf'},
         { tag: '源码', link: 'https://github.com/LDQ-first/vue-animating-resume-1'},
         { tag: 'GitHub', link: 'https://github.com/LDQ-first'},
+        { tag: 'React版', link: 'https://ldq-first.github.io/react-animating-resume-1/build/'},
       ],
       showControl: true,
       interval: 50,
@@ -75,7 +79,7 @@ export default {
       fullStyle: [ `/*
 * Inspired by http://strml.net/
 * 大家好，我是刘德铨 
-* 这是我的一份动态简历！
+* 这是我的一份Vue版动态简历！
 */
 
 /* 首先给所有元素加上过渡效果 */
@@ -97,6 +101,7 @@ html {
   width: 45vw;  height: 90vh;
   background: #303030;
 }
+.styleEditor pre { padding: 0.5em; }
 
 /* 代码高亮
   作为程序员，怎么能忍受代码都是一种颜色呢
@@ -132,7 +137,7 @@ pre { color: #999cfe};
   border: none;  outline: none;
   margin-right: 0.5em;
   float: left;
-  font-size: .25rem;  color: #EEE;
+  font-size: 14px;  color: #EEE;
   width: 5em;  height: 3em;
   text-align: center;
   cursor: pointer;
@@ -183,7 +188,8 @@ pre { color: #999cfe};
         `
 /* 再对 HTML 加点样式 */
 .resumeEditor h2{
-  padding: 0.1em 0.5em;
+  padding: 0.3em 0.5em;
+  margin: 0.4em 0;
   border-left: 4px solid #FF7203;
   background: #B79DFE;
   color: #222;
@@ -192,12 +198,12 @@ pre { color: #999cfe};
 .resumeEditor pre {
   color: #222;
   line-height: 1.4em;
-  padding: 0.2em 1em;
+  padding: 0.6em 1em;
 }
 .resumeEditor  p {
   font-size: 18px;
   line-height: 1.7em;
-  padding: 0.2em 1em;
+  padding: 0.6em 1em;
 }
 .resumeEditor img { width: 170px; }
 .resumeEditor .icon {
@@ -217,11 +223,12 @@ pre { color: #999cfe};
 }
 .resumeEditor ul,.resumeEditor ol{
   list-style: none;
-  padding: 0.2em 1em;
+  padding: 0.4em 1em;
 }
 .resumeEditor ul li,.resumeEditor ol li{
-  padding: 0.2em 1em;
+  padding: 0.4em 1em;
 }
+.resumeEditor .contact { padding: 0 2em; }
 .resumeEditor ol {
   counter-reset: section;
 }
@@ -323,6 +330,9 @@ progress::-webkit-progress-value  { background: #0064B4; }
 <svg class="icon" id="icon" aria-hidden="true">
     <use xlink:href="#icon-vuejs"></use>
 </svg>Vue         熟悉  <progress value="40" max="100"></progress>
+<svg class="icon" id="icon" aria-hidden="true">
+    <use xlink:href="#icon-download_react-native"></use>
+</svg>React       了解  <progress value="20" max="100"></progress>
 <img src="../static/img/webpack.png" class="webpack">Webpack     了解  <progress value="35" max="100"></progress>  
 </pre>
 
@@ -353,6 +363,11 @@ progress::-webkit-progress-value  { background: #0064B4; }
   </svg>
 </a>
 3. [Vue版动态简历](https://ldq-first.github.io/vue-animating-resume-1/dist/)<a href="https://github.com/LDQ-first/vue-animating-resume-1" >
+  <svg class="icon github" id="icon" aria-hidden="true">
+    <use xlink:href="#icon-github"></use>
+  </svg>
+</a>
+4. [React版动态简历](https://ldq-first.github.io/react-animating-resume-1/build/)<a href="https://github.com/LDQ-first/react-animating-resume-1">
   <svg class="icon github" id="icon" aria-hidden="true">
     <use xlink:href="#icon-github"></use>
   </svg>
@@ -412,15 +427,19 @@ progress::-webkit-progress-value  { background: #0064B4; }
     this.makeResume();
   },
   methods: {
-    pureResume(tag) {
+    isFireFox() {
+      console.log(navigator.userAgent.indexOf('Firefox') >-1)
+      return navigator.userAgent.indexOf('Firefox') >-1;
+    },
+    /*pureResume(tag) {
       if(tag === 'PDF下载') {
         this.skip();
-        /*this.showControl = false;
+        this.showControl = false;
         this.controlCode = false;
         this.state = 'pure';
-        this.$refs.resumeEditor.pureResume();*/
+        this.$refs.resumeEditor.pureResume();
       } 
-    },
+    },*/
     controlCodeEve() {
       this.$refs.styleEditor.controlCode();
       this.controlCodeText = this.controlCodeText === '显示代码' ? '隐藏代码' : '显示代码';
@@ -564,10 +583,12 @@ progress::-webkit-progress-value  { background: #0064B4; }
 
 <style scoped>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   overflow: auto;
+}
+
+pre {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif,
+    "Microsoft YaHei", "微软雅黑","MicrosoftJhengHei","华文细黑",STHeiti,MingLiu;
 }
 
 a {
