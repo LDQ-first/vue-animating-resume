@@ -6,9 +6,9 @@
       <aside v-show="state === 'over'">
         <ul>
           <li v-for="(item, index) in asideArr" :key="index" >
-            <a :href="item.link" target="_blank" v-if="isFirefox() && item.tag === 'PDF下载'"  download
+            <a :href="item.link" target="_blank" v-if="isFirefox() && item.tag === 'PDF下载'" download 
                >{{item.tag}}</a>
-            <!--<a :href="item.link" target="_blank"  v-else @click="pureResume(item.tag)"  @click="pureResume(item.tag)">{{item.tag}}</a>-->
+            <!--<a :href="item.link" target="_blank"  v-else @click="pureResume(item.tag)" >{{item.tag}}</a>-->
             <a :href="item.link" target="_blank"  v-else>{{item.tag}}</a>
           </li>
         </ul>
@@ -357,17 +357,12 @@ progress::-webkit-progress-value  { background: #0064B4; }
     <use xlink:href="#icon-github"></use>
   </svg>
 </a>
-2. [Vue版在线简历编辑器](https://ldq-first.github.io/vue-cv-1/dist/#/)<a href="https://github.com/LDQ-first/vue-cv-1" >
+2. [Vue版动态简历](https://ldq-first.github.io/vue-animating-resume/dist/)<a href="https://github.com/LDQ-first/vue-animating-resume" >
   <svg class="icon github" id="icon" aria-hidden="true">
     <use xlink:href="#icon-github"></use>
   </svg>
 </a>
-3. [Vue版动态简历](https://ldq-first.github.io/vue-animating-resume/dist/)<a href="https://github.com/LDQ-first/vue-animating-resume" >
-  <svg class="icon github" id="icon" aria-hidden="true">
-    <use xlink:href="#icon-github"></use>
-  </svg>
-</a>
-4. [React版动态简历](https://ldq-first.github.io/react-animating-resume/build/)<a href="https://github.com/LDQ-first/react-animating-resume">
+3. [React版动态简历](https://ldq-first.github.io/react-animating-resume/build/)<a href="https://github.com/LDQ-first/react-animating-resume">
   <svg class="icon github" id="icon" aria-hidden="true">
     <use xlink:href="#icon-github"></use>
   </svg>
