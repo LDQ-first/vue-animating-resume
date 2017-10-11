@@ -66,7 +66,7 @@ export default {
         { tag: 'PDF下载', link: './static/刘德铨-应聘前端开发-2017.pdf'},
         { tag: '源码', link: 'https://github.com/LDQ-first/vue-animating-resume'},
         { tag: 'GitHub', link: 'https://github.com/LDQ-first'},
-        { tag: 'React版', link: 'https://ldq-first.github.io/react-animating-resume/build/'},
+        { tag: 'React版', link: '//ldqblog.me/react-animating-resume/build/'},
       ],
       showControl: true,
       interval: 50,
@@ -352,17 +352,17 @@ progress::-webkit-progress-value  { background: #0064B4; }
 </span>
 项目
 ---
-1. [Vue版CNode](https://ldq-first.github.io/vue-CNode/dist/#/)<a href="https://github.com/LDQ-first/vue-CNode" >
+1. [Vue版CNode](//ldqblog.me/vue-CNode/dist/#/)<a href="https://github.com/LDQ-first/vue-CNode" >
   <svg class="icon github" id="icon" aria-hidden="true">
     <use xlink:href="#icon-github"></use>
   </svg>
 </a>
-2. [Vue版动态简历](https://ldq-first.github.io/vue-animating-resume/dist/)<a href="https://github.com/LDQ-first/vue-animating-resume" >
+2. [Vue版动态简历](//ldqblog.me/vue-animating-resume/dist/)<a href="https://github.com/LDQ-first/vue-animating-resume" >
   <svg class="icon github" id="icon" aria-hidden="true">
     <use xlink:href="#icon-github"></use>
   </svg>
 </a>
-3. [React版动态简历](https://ldq-first.github.io/react-animating-resume/build/)<a href="https://github.com/LDQ-first/react-animating-resume">
+3. [React版动态简历](//ldqblog.me/react-animating-resume/build/)<a href="https://github.com/LDQ-first/react-animating-resume">
   <svg class="icon github" id="icon" aria-hidden="true">
     <use xlink:href="#icon-github"></use>
   </svg>

@@ -2,7 +2,7 @@
 
 > A Vue.js 版的动态响应式简历
 
-**[预览地址](https://ldq-first.github.io/vue-animating-resume/dist/)**
+**[预览地址](http://ldqblog.me/vue-animating-resume/dist/)**
 
 ## 技术栈
 - Vue  前端框架
